@@ -1,0 +1,244 @@
+<!--
+    DLI Exit Journey Micro-Interaction
+    ===================================
+    Embed this section into dliadvisory.com after the track record / credibility content
+    and before the contact CTA section.
+
+    Design: Same typographic DNA as the v3 exit readiness page.
+    Purpose: Create engagement + capture intent signal + personalise the next CTA.
+    Not the full quiz — just enough to make the visitor feel seen.
+-->
+
+<!-- Requires the same Google Fonts as the main site -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    .ej {
+        --navy: #04163a;
+        --off-white: #f7f7f9;
+        --white: #ffffff;
+        --orange: #ff560b;
+        --orange-hover: #e64d0a;
+        --text-primary: #1a1f36;
+        --text-secondary: #4a5068;
+        --text-light: #6b7194;
+        --border: #e2e4ea;
+        --serif: 'DM Serif Display', Georgia, serif;
+        --sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+
+        background: var(--off-white);
+        padding: clamp(4.5rem, 10vw, 7rem) 0;
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .ej-container {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .ej h2 {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        line-height: 1.2;
+        color: var(--navy);
+        margin-bottom: 0.75rem;
+    }
+
+    .ej-subtitle {
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 3rem;
+        max-width: 560px;
+    }
+
+    /* ---- Choice cards ---- */
+
+    .ej-choices {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        margin-bottom: 0;
+    }
+
+    @media (min-width: 640px) {
+        .ej-choices {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .ej-choice {
+        background: var(--white);
+        padding: 2rem 1.75rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        border: none;
+        text-align: left;
+        font-family: var(--sans);
+        width: 100%;
+    }
+
+    .ej-choice:hover {
+        background: var(--off-white);
+    }
+
+    .ej-choice.active {
+        background: var(--navy);
+    }
+
+    .ej-choice-label {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .ej-choice.active .ej-choice-label {
+        color: var(--white);
+    }
+
+    .ej-choice-desc {
+        font-size: 0.88rem;
+        color: var(--text-light);
+        line-height: 1.6;
+        display: block;
+    }
+
+    .ej-choice.active .ej-choice-desc {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ---- Response panel ---- */
+
+    .ej-response {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-top: none;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .ej-response.visible {
+        max-height: 400px;
+        padding: 2.5rem 2rem;
+    }
+
+    .ej-response-text {
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1.75rem;
+        max-width: 660px;
+    }
+
+    .ej-response-cta {
+        display: inline-block;
+        padding: 0.85rem 2rem;
+        background: var(--orange);
+        color: var(--white);
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .ej-response-cta:hover {
+        background: var(--orange-hover);
+    }
+</style>
+
+<section class="ej">
+    <div class="ej-container">
+        <h2>Where Are You in Your Exit Journey?</h2>
+        <p class="ej-subtitle">Select the stage that best describes where you are today.</p>
+
+        <div class="ej-choices" role="radiogroup" aria-label="Exit journey stage">
+            <button class="ej-choice" data-stage="exploring" role="radio" aria-checked="false">
+                <span class="ej-choice-label">Exploring</span>
+                <span class="ej-choice-desc">Considering an exit in the next 2-5 years. Want to understand what it involves.</span>
+            </button>
+            <button class="ej-choice" data-stage="planning" role="radio" aria-checked="false">
+                <span class="ej-choice-label">Planning</span>
+                <span class="ej-choice-desc">Exit is on the horizon within 12-24 months. Need to know what to prepare.</span>
+            </button>
+            <button class="ej-choice" data-stage="ready" role="radio" aria-checked="false">
+                <span class="ej-choice-label">Ready to Move</span>
+                <span class="ej-choice-desc">Exit timing is now. Looking for the right advisor to run the process.</span>
+            </button>
+        </div>
+
+        <div class="ej-response" id="ej-response" role="region" aria-live="polite">
+            <div class="ej-response-text" id="ej-response-text"></div>
+            <a href="" class="ej-response-cta" id="ej-response-cta" target="_blank" rel="noopener"></a>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    const responses = {
+        exploring: {
+            text: 'This is exactly the right time to start thinking about exit readiness. The businesses that command premium valuations at exit are the ones that begin aligning to buyer expectations 2-3 years before going to market. A 30-minute conversation now can shape how you build for the next few years — and potentially add millions to your eventual exit value.',
+            cta: 'Book a Free Readiness Conversation',
+            href: 'https://calendly.com/andrew-dli/exit-readiness'
+        },
+        planning: {
+            text: 'With 12-24 months on the clock, the decisions you make now directly determine your exit outcome. This is where most value is either created or lost — in the preparation phase that most advisors skip entirely. An exit readiness assessment will tell you exactly where the gaps are, what to prioritise, and whether your timeline is realistic.',
+            cta: 'Book Your Free Assessment',
+            href: 'https://calendly.com/andrew-dli/exit-readiness'
+        },
+        ready: {
+            text: 'If you are ready to move, the most important decision you will make is who runs the process. A structured, competitive sell-side process with genuine buyer tension is the difference between price acceptance and a premium outcome. We should talk about your business, your buyer universe, and whether DLI is the right fit to run this.',
+            cta: 'Book a Confidential Conversation',
+            href: 'https://calendly.com/andrew-dli/exit-readiness'
+        }
+    };
+
+    const choices = document.querySelectorAll('.ej-choice');
+    const responsePanel = document.getElementById('ej-response');
+    const responseText = document.getElementById('ej-response-text');
+    const responseCta = document.getElementById('ej-response-cta');
+
+    choices.forEach(choice => {
+        choice.addEventListener('click', function () {
+            const stage = this.dataset.stage;
+            const data = responses[stage];
+
+            // Update active state
+            choices.forEach(c => {
+                c.classList.remove('active');
+                c.setAttribute('aria-checked', 'false');
+            });
+            this.classList.add('active');
+            this.setAttribute('aria-checked', 'true');
+
+            // Update response
+            responseText.textContent = data.text;
+            responseCta.textContent = data.cta;
+            responseCta.href = data.href;
+            responsePanel.classList.add('visible');
+
+            // Analytics
+            if (window.gtag) {
+                gtag('event', 'exit_journey_select', {
+                    'stage': stage,
+                    'page': 'dliadvisory-main'
+                });
+            }
+        });
+    });
+})();
+</script>

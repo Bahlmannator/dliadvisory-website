@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DLI Advisory · Strategic Exit Partnership Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS — DLI / SERA design system
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --navy:        #04163a;
+  --deep-blue:   #000a63;
+  --royal:       #00329d;
+  --bright:      #0050ce;
+  --sky:         #027bde;
+  --azure:       #05a4ed;
+  --orange:      #ff560b;
+  --amber:       #f9a406;
+  --charcoal:    #050505;
+  --dark-grey:   #373635;
+  --mid-grey:    #7f7f7f;
+  --light-grey:  #b8b8b8;
+  --off-white:   #f0f1f6;
+  --white:       #ffffff;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --green-mid:   #86efac;
+  --warn:        #d97706;
+  --warn-light:  #fef3c7;
+  --danger:      #b91c1c;
+  --danger-light:#fee2e2;
+  --border:      #dde3ef;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --purple:      #7c3aed;
+  --purple-light:#ede9fe;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Montserrat', sans-serif; background: var(--off-white); color: var(--charcoal); min-height: 100vh; }
+
+/* ══════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════ */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 268px; height: 100vh;
+  background: var(--navy);
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--royal) transparent;
+}
+.sidebar-logo {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.logo-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; background: var(--orange); border-radius: 6px;
+  font-size: 10px; font-weight: 800; color: var(--white); margin-bottom: 9px;
+}
+.sb-brand  { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: var(--light-grey); text-transform: uppercase; display: block; margin-bottom: 3px; }
+.sb-client { font-size: 14px; font-weight: 800; color: var(--white); display: block; }
+.sb-module { font-size: 9px; font-weight: 600; color: var(--orange); text-transform: uppercase; letter-spacing: 2px; margin-top: 3px; display: block; }
+.sb-progress { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+.sb-prog-label { font-size: 8px; font-weight: 700; letter-spacing: 2px; color: var(--light-grey); text-transform: uppercase; margin-bottom: 6px; }
+.sb-prog-outer { background: rgba(255,255,255,0.1); border-radius: 100px; height: 4px; overflow: hidden; margin-bottom: 5px; }
+.sb-prog-inner { height: 100%; background: linear-gradient(90deg, var(--orange), var(--amber)); border-radius: 100px; transition: width .5s ease; }
+.sb-prog-text  { font-size: 11px; font-weight: 600; color: var(--white); }
+.sb-prog-text span { color: var(--orange); }
+.nav-group-label {
+  padding: 14px 20px 5px;
+  font-size: 8px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.28);
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 20px; cursor: pointer;
+  border-left: 3px solid transparent;
+  font-size: 11.5px; font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.15px; border: none;
+  background: none; width: 100%; text-align: left;
+  transition: all .15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: rgba(255,86,11,0.16); border-left-color: var(--orange); color: var(--white); }
+.nav-item.locked { opacity: .4; cursor: default; }
+.nav-item.sub { padding-left: 38px; font-size: 10.5px; font-weight: 500; color: rgba(255,255,255,0.38); }
+.nav-item.sub:hover { color: rgba(255,255,255,0.7); }
+.nav-item.sub.active { color: var(--white); }
+.nav-icon { width: 17px; height: 17px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; }
+.nav-item.active .nav-icon { background: var(--orange); }
+.nav-item:not(.active) .nav-icon { background: rgba(255,255,255,0.09); }
+.nav-badge { margin-left: auto; font-size: 8.5px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+.badge-done   { background: rgba(22,163,74,0.22);  color: #4ade80; }
+.badge-active { background: rgba(255,86,11,0.22);  color: #ff9a6b; }
+.badge-live   { background: rgba(5,164,237,0.22);  color: var(--azure); }
+.badge-ic     { background: rgba(124,58,237,0.22); color: #c4b5fd; }
+.nav-divider  { height: 1px; background: rgba(255,255,255,0.07); margin: 5px 20px; }
+.sb-footer { margin-top: auto; padding: 13px 20px; border-top: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+.sb-footer-text { font-size: 9px; color: rgba(255,255,255,0.22); line-height: 1.65; }
+
+/* ══════════════════════════════════════════════════════════
+   MAIN
+   ══════════════════════════════════════════════════════════ */
+.main { margin-left: 268px; min-height: 100vh; display: flex; flex-direction: column; }
+.topbar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 0 30px; height: 50px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-size: 12.5px; font-weight: 800; color: var(--navy); letter-spacing: 0.1px; }
+.topbar-meta  { display: flex; align-items: center; gap: 18px; }
+.topbar-item  { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; }
+.topbar-item strong { color: var(--navy); font-weight: 700; }
+.status-dot   { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
+.dot-green { background: var(--green); }
+.dot-amber { background: var(--warn); }
+.dot-blue  { background: var(--azure); }
+.content { padding: 26px 30px 48px; flex: 1; max-width: 1080px; }
+
+/* ══════════════════════════════════════════════════════════
+   PHASE BANNER
+   ══════════════════════════════════════════════════════════ */
+.phase-banner {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 5px solid var(--orange); border-radius: 8px;
+  padding: 17px 22px; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.pb-title { font-size: 17px; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 4px; }
+.pb-sub   { font-size: 11px; color: var(--mid-grey); font-weight: 500; line-height: 1.55; max-width: 600px; }
+.pb-meta  { text-align: right; min-width: 130px; }
+.pb-meta-label { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 3px; }
+.pb-meta-val   { font-size: 13px; font-weight: 800; color: var(--navy); }
+.pb-meta-note  { font-size: 10px; color: var(--mid-grey); margin-top: 2px; }
+
+/* ══════════════════════════════════════════════════════════
+   MODULE HEADER
+   ══════════════════════════════════════════════════════════ */
+.module-header {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.module-number {
+  background: var(--navy); color: var(--orange);
+  font-size: 11px; font-weight: 800;
+  padding: 6px 12px; border-radius: 6px;
+  letter-spacing: 0.05em; white-space: nowrap;
+}
+.module-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+.module-sub   { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; }
+
+/* ══════════════════════════════════════════════════════════
+   SECTION HEADER
+   ══════════════════════════════════════════════════════════ */
+.section-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 13px; gap: 14px; }
+.section-title  { font-size: 13px; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-bottom: 2px; }
+.section-sub    { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; }
+
+/* ══════════════════════════════════════════════════════════
+   CARDS
+   ══════════════════════════════════════════════════════════ */
+.card       { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; }
+.card-dark  { background: var(--navy); border-radius: 8px; padding: 18px 22px; }
+.card-tinted { background: #eef3ff; border: 1px solid #c7d7fb; border-radius: 8px; padding: 13px 17px; }
+.card-green  { background: var(--green-light); border: 1px solid #a7e3c0; border-radius: 8px; padding: 13px 17px; }
+.card-amber  { background: var(--warn-light); border: 1px solid #fcd34d; border-radius: 8px; padding: 13px 17px; }
+.card-danger { background: var(--danger-light); border: 1px solid #fca5a5; border-radius: 8px; padding: 13px 17px; }
+.card-teal   { background: var(--teal-light); border: 1px solid #5eead4; border-radius: 8px; padding: 13px 17px; }
+
+/* ══════════════════════════════════════════════════════════
+   PILLS
+   ══════════════════════════════════════════════════════════ */
+.pill { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.p-orange  { color: var(--orange);   background: #fff0e8; border: 1px solid #ffd0b8; }
+.p-royal   { color: var(--royal);    background: #e8f0fe; border: 1px solid #c7d7fb; }
+.p-green   { color: var(--green);    background: var(--green-light);  border: 1px solid #a7e3c0; }
+.p-amber   { color: var(--warn);     background: var(--warn-light);   border: 1px solid #fcd34d; }
+.p-red     { color: var(--danger);   background: var(--danger-light); border: 1px solid #fca5a5; }
+.p-muted   { color: var(--mid-grey); background: var(--off-white);    border: 1px solid var(--border); }
+.p-sky     { color: var(--sky);      background: #e0f2fe; border: 1px solid #7dd3fc; }
+.p-teal    { color: var(--teal);     background: var(--teal-light);   border: 1px solid #5eead4; }
+.p-purple  { color: var(--purple);   background: var(--purple-light); border: 1px solid #c4b5fd; }
+
+/* ══════════════════════════════════════════════════════════
+   GRIDS
+   ══════════════════════════════════════════════════════════ */
+.g-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.g-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.g-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+
+/* ══════════════════════════════════════════════════════════
+   KPI CARD
+   ══════════════════════════════════════════════════════════ */
+.kpi-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid transparent; border-radius: 8px; padding: 14px 16px; text-align: center; }
+.kpi-label { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 6px; }
+.kpi-value { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 3px; }
+.kpi-sub   { font-size: 10px; color: var(--mid-grey); font-weight: 500; }
+
+/* ══════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ══════════════════════════════════════════════════════════ */
+.mb-8  { margin-bottom: 8px; }
+.mb-14 { margin-bottom: 14px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-28 { margin-bottom: 28px; }
+.col-label { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--light-grey); margin-bottom: 4px; }
+.col-val   { font-size: 12px; font-weight: 700; color: var(--navy); }
+.col-sub   { font-size: 10.5px; font-weight: 500; color: var(--mid-grey); }
+.hidden { display: none !important; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+.anim { animation: fadeSlide .3s ease forwards; }
+
+/* ══════════════════════════════════════════════════════════
+   FILTER BAR / VIEW TOGGLE
+   ══════════════════════════════════════════════════════════ */
+.filter-bar, .view-toggle {
+  display: flex; border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; background: var(--white); width: fit-content;
+}
+.filter-btn, .view-btn {
+  padding: 6px 14px; border: none;
+  border-right: 1px solid var(--border);
+  background: transparent; color: var(--mid-grey);
+  font-size: 10px; font-weight: 700;
+  font-family: 'Montserrat',sans-serif; cursor: pointer;
+  letter-spacing: 0.04em; text-transform: capitalize;
+  transition: all .15s;
+}
+.filter-btn:last-child, .view-btn:last-child { border-right: none; }
+.filter-btn.active, .view-btn.active { background: var(--navy); color: var(--white); }
+
+/* ══════════════════════════════════════════════════════════
+   TRAFFIC LIGHT
+   ══════════════════════════════════════════════════════════ */
+.traffic-light { display: flex; align-items: center; gap: 6px; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; opacity: 0.25; }
+.tl-dot.active { opacity: 1; }
+.tl-red    { background: var(--danger); }
+.tl-amber  { background: var(--amber); }
+.tl-green  { background: var(--green); }
+.tl-label  { font-size: 10px; font-weight: 700; color: var(--dark-grey); margin-left: 4px; }
+
+/* ══════════════════════════════════════════════════════════
+   SCORE RING
+   ══════════════════════════════════════════════════════════ */
+.score-ring-wrap { text-align: center; }
+.score-ring-val  { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: var(--navy); line-height: 1; }
+.score-ring-max  { font-size: 14px; font-weight: 500; color: var(--light-grey); }
+.score-ring-sub  { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid-grey); margin-top: 3px; }
+
+/* ══════════════════════════════════════════════════════════
+   SLIDER
+   ══════════════════════════════════════════════════════════ */
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  border-radius: 2px; background: var(--border); outline: none; margin: 10px 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--orange); cursor: pointer;
+  box-shadow: 0 1px 4px rgba(255,86,11,.4);
+}
+input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--orange); cursor: pointer; border: none; }
+
+/* ══════════════════════════════════════════════════════════
+   SELECT
+   ══════════════════════════════════════════════════════════ */
+select, .custom-select {
+  appearance: none;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237f7f7f'/%3E%3C/svg%3E") no-repeat right 10px center;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 7px 30px 7px 11px; font-size: 11px; font-weight: 600;
+  font-family: 'Montserrat',sans-serif; color: var(--navy); cursor: pointer;
+  outline: none; transition: border-color .15s;
+}
+select:focus { border-color: var(--royal); }
+
+/* ══════════════════════════════════════════════════════════
+   BUYER TIER CARDS
+   ══════════════════════════════════════════════════════════ */
+.tier-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 8px;
+  transition: box-shadow .2s;
+}
+.tier-card:hover { box-shadow: 0 3px 12px rgba(4,22,58,.08); }
+.tier-header { display: grid; grid-template-columns: 60px 1fr 120px 110px; align-items: start; gap: 14px; margin-bottom: 0; }
+.tier-badge {
+  background: var(--navy); color: var(--white);
+  font-size: 10px; font-weight: 800; padding: 5px 0;
+  border-radius: 6px; text-align: center; letter-spacing: 0.04em;
+}
+.tier-badge.t1 { background: var(--orange); }
+.tier-badge.t2 { background: var(--royal); }
+.tier-badge.t3 { background: var(--teal); }
+.tier-badge.t4 { background: var(--purple); }
+.tier-name  { font-size: 12.5px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.tier-desc  { font-size: 11px; color: var(--mid-grey); font-weight: 500; line-height: 1.5; }
+.tier-delta { text-align: right; }
+.tier-delta-val  { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; }
+.tier-delta-label { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--light-grey); margin-top: 2px; }
+.tier-gaps { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: none; }
+.tier-card.open .tier-gaps { display: block; }
+.gap-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.gap-dot  { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.gap-text { font-size: 11px; font-weight: 500; color: var(--dark-grey); flex: 1; }
+.gap-effort { font-size: 10px; font-weight: 700; color: var(--mid-grey); }
+
+/* ══════════════════════════════════════════════════════════
+   VALUE LEVERS TABLE
+   ══════════════════════════════════════════════════════════ */
+.lever-row {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 4px solid var(--border); border-radius: 8px;
+  padding: 12px 18px; margin-bottom: 8px;
+  display: grid; grid-template-columns: 1fr 90px 90px 100px 100px 90px;
+  align-items: center; gap: 12px;
+}
+.lever-row:hover { box-shadow: 0 2px 10px rgba(4,22,58,.07); }
+.lever-row.lhigh { border-left-color: var(--orange); }
+.lever-row.lmed  { border-left-color: var(--warn); }
+.lever-row.llow  { border-left-color: var(--border); }
+.lever-name { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.lever-link { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; }
+.score-bar-wrap { display: flex; align-items: center; gap: 6px; }
+.score-track { flex: 1; height: 4px; background: var(--off-white); border-radius: 2px; overflow: hidden; }
+.score-fill  { height: 100%; border-radius: 2px; transition: width .6s ease; }
+.score-num   { font-size: 10px; font-weight: 800; min-width: 16px; }
+
+/* ══════════════════════════════════════════════════════════
+   SCENARIO CARDS
+   ══════════════════════════════════════════════════════════ */
+.scenario-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.scenario-card {
+  border-radius: 8px; padding: 18px 20px;
+  border: 2px solid transparent; cursor: pointer; transition: all .2s;
+}
+.scenario-card.sq  { background: var(--off-white); border-color: var(--border); }
+.scenario-card.opt { background: #e8f0fe; border-color: #c7d7fb; }
+.scenario-card.prm { background: linear-gradient(135deg, var(--navy), var(--deep-blue)); }
+.scenario-card.active { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(4,22,58,.15); }
+.scenario-card.sq.active  { border-color: var(--dark-grey); }
+.scenario-card.opt.active { border-color: var(--royal); }
+.scenario-card.prm.active { box-shadow: 0 8px 24px rgba(255,86,11,.25); }
+.sc-label   { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.sc-val     { font-size: 30px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 3px; }
+.sc-sub     { font-size: 10px; font-weight: 500; margin-bottom: 10px; }
+.sc-mult    { font-size: 13px; font-weight: 700; }
+.sc-buyers  { font-size: 10px; font-weight: 600; margin-top: 6px; }
+.scenario-card.sq  .sc-label, .scenario-card.sq  .sc-val, .scenario-card.sq  .sc-sub { color: var(--dark-grey); }
+.scenario-card.opt .sc-label, .scenario-card.opt .sc-val { color: var(--navy); }
+.scenario-card.opt .sc-sub { color: var(--mid-grey); }
+.scenario-card.prm .sc-label { color: var(--orange); }
+.scenario-card.prm .sc-val, .scenario-card.prm .sc-sub, .scenario-card.prm .sc-mult, .scenario-card.prm .sc-buyers { color: var(--white); }
+.scenario-card.sq  .sc-mult  { color: var(--dark-grey); }
+.scenario-card.opt .sc-mult  { color: var(--royal); }
+
+/* ══════════════════════════════════════════════════════════
+   DECISION CARDS
+   ══════════════════════════════════════════════════════════ */
+.decision-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 4px solid var(--border); border-radius: 8px;
+  padding: 13px 17px; margin-bottom: 8px; cursor: pointer; transition: box-shadow .2s;
+}
+.decision-card:hover { box-shadow: 0 3px 12px rgba(4,22,58,.08); }
+.decision-card.high   { border-left-color: var(--orange); }
+.decision-card.medium { border-left-color: var(--warn); }
+.decision-card.low    { border-left-color: var(--border); }
+.decision-card.expanded { box-shadow: 0 5px 20px rgba(4,22,58,.11); }
+.dec-grid { display: grid; grid-template-columns: 1fr 120px 100px 100px 90px; align-items: center; gap: 12px; }
+.dec-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 5px; line-height: 1.45; }
+.dec-tags  { display: flex; gap: 5px; flex-wrap: wrap; }
+.impact-bar-wrap { display: flex; align-items: center; gap: 6px; }
+.impact-track { flex: 1; height: 4px; background: var(--off-white); border-radius: 2px; overflow: hidden; }
+.impact-fill  { height: 100%; background: linear-gradient(90deg, var(--orange), var(--amber)); border-radius: 2px; transition: width .6s ease; }
+.impact-score { font-size: 10px; font-weight: 800; color: var(--orange); min-width: 16px; }
+.dec-detail   { border-top: 1px solid var(--border); margin-top: 11px; padding-top: 11px; display: none; }
+.decision-card.expanded .dec-detail { display: block; }
+.detail-head  { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 4px; }
+.detail-body  { font-size: 11.5px; color: var(--royal); font-weight: 500; line-height: 1.65; }
+.sim-box { background: var(--off-white); border: 1px solid var(--border); border-radius: 6px; padding: 11px 14px; margin-top: 10px; }
+.sim-box-title { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 8px; }
+.sim-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 11px; }
+.sim-label { color: var(--dark-grey); font-weight: 500; }
+.sim-val-before { color: var(--mid-grey); font-weight: 600; }
+.sim-arrow { color: var(--orange); font-weight: 800; margin: 0 8px; }
+.sim-val-after  { color: var(--green); font-weight: 800; }
+
+/* ══════════════════════════════════════════════════════════
+   MILESTONE ROWS
+   ══════════════════════════════════════════════════════════ */
+.phase-group-hdr { display: flex; align-items: center; gap: 11px; margin-bottom: 8px; }
+.phase-chip  { font-size: 9.5px; font-weight: 800; color: var(--navy); background: var(--white); border: 1px solid var(--border); padding: 3px 11px; border-radius: 20px; white-space: nowrap; }
+.phase-line  { flex: 1; height: 1px; background: var(--border); }
+.phase-tally { font-size: 10px; color: var(--mid-grey); font-weight: 600; white-space: nowrap; }
+.milestone-row {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 4px solid var(--border); border-radius: 8px;
+  padding: 10px 17px; display: grid;
+  grid-template-columns: 22px 1fr 160px 85px;
+  align-items: center; gap: 12px; margin-bottom: 7px; transition: box-shadow .2s;
+}
+.milestone-row:hover { box-shadow: 0 2px 9px rgba(4,22,58,.07); }
+.milestone-row.complete    { border-left-color: var(--green); }
+.milestone-row.in-progress { border-left-color: var(--warn); }
+.m-dot { width: 21px; height: 21px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--white); flex-shrink: 0; }
+.m-dot.complete    { background: var(--green); }
+.m-dot.in-progress { background: var(--warn); }
+.m-dot.not-started { background: var(--border); color: var(--mid-grey); }
+.m-name  { font-size: 11.5px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; }
+.m-notes { font-size: 10px; color: var(--mid-grey); font-weight: 500; }
+.m-owner { font-size: 10px; color: var(--mid-grey); font-weight: 600; text-align: right; }
+
+/* ══════════════════════════════════════════════════════════
+   VALUATION BRIDGE
+   ══════════════════════════════════════════════════════════ */
+.bridge-row {
+  display: grid; grid-template-columns: 280px 1fr 90px;
+  align-items: center; gap: 14px; padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bridge-row:last-child { border-bottom: none; }
+.bridge-row.target-row { background: var(--green-light); margin: 4px -22px; padding: 11px 22px; border-radius: 6px; border-bottom: none; }
+.bridge-label { font-size: 12px; color: var(--dark-grey); font-weight: 500; display: flex; align-items: center; gap: 7px; }
+.bridge-label.lbl-base   { font-weight: 800; color: var(--navy); }
+.bridge-label.lbl-target { font-weight: 800; color: var(--green); font-size: 13px; }
+.bridge-label.lbl-dli    { font-weight: 700; color: var(--navy); }
+.bridge-track { height: 6px; background: var(--off-white); border-radius: 3px; overflow: hidden; }
+.bridge-fill  { height: 100%; border-radius: 3px; transition: width .9s ease; }
+.bridge-amt   { text-align: right; font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
+.bridge-amt.amt-base   { color: var(--navy); }
+.bridge-amt.amt-add    { color: var(--royal); }
+.bridge-amt.amt-dli    { color: var(--orange); }
+.bridge-amt.amt-target { color: var(--green); font-size: 17px; }
+
+/* ══════════════════════════════════════════════════════════
+   QUARTERLY REVIEW
+   ══════════════════════════════════════════════════════════ */
+.qr-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--border); border-radius: 8px; padding: 15px 19px; margin-bottom: 10px; }
+.qr-card.complete { border-left-color: var(--green); }
+.qr-card.upcoming { opacity: .65; }
+.qr-grid  { display: grid; grid-template-columns: 1fr 100px 100px 135px 85px; align-items: start; gap: 16px; }
+.qr-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
+.qr-finding { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; line-height: 1.55; max-width: 340px; }
+
+/* ══════════════════════════════════════════════════════════
+   IC DASHBOARD
+   ══════════════════════════════════════════════════════════ */
+.ic-banner { background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%); border-radius: 10px; padding: 22px 26px; margin-bottom: 22px; border-left: 5px solid var(--purple); }
+.ic-banner-title { font-size: 17px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.ic-banner-sub   { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 500; }
+.ic-kpi { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 14px 16px; text-align: center; }
+.ic-kpi-label { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 6px; }
+.ic-kpi-val   { font-size: 26px; font-weight: 800; letter-spacing: -0.04em; color: var(--white); line-height: 1; margin-bottom: 3px; }
+.ic-kpi-sub   { font-size: 10px; color: rgba(255,255,255,.4); font-weight: 500; }
+.irr-scenario {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 8px;
+}
+.irr-sc-label { font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.irr-sc-sub   { font-size: 10px; color: var(--mid-grey); font-weight: 500; }
+.irr-bar-area { flex: 1; }
+.irr-bar-track { height: 8px; background: var(--off-white); border-radius: 4px; overflow: hidden; }
+.irr-bar-fill  { height: 100%; border-radius: 4px; transition: width .9s ease; }
+.irr-val  { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; min-width: 70px; text-align: right; }
+.exit-timing-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; }
+.timing-row { display: flex; align-items: center; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.timing-row:last-child { border-bottom: none; }
+.timing-period { font-size: 11px; font-weight: 800; color: var(--navy); min-width: 90px; }
+.timing-bar-track { flex: 1; height: 6px; background: var(--off-white); border-radius: 3px; overflow: hidden; }
+.timing-bar-fill  { height: 100%; border-radius: 3px; }
+.timing-vals { display: flex; gap: 14px; min-width: 160px; text-align: right; }
+.timing-irr { font-size: 12px; font-weight: 800; color: var(--navy); }
+.timing-val { font-size: 12px; font-weight: 700; color: var(--green); }
+
+/* MAS Dynamic */
+.mas-signal-row { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--border); border-radius: 8px; padding: 11px 17px; margin-bottom: 7px; display: grid; grid-template-columns: 1fr 100px 80px 90px; align-items: center; gap: 12px; }
+.mas-signal-row.positive { border-left-color: var(--green); }
+.mas-signal-row.neutral  { border-left-color: var(--warn); }
+.mas-signal-row.negative { border-left-color: var(--danger); }
+.signal-name  { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.signal-note  { font-size: 10.5px; color: var(--mid-grey); font-weight: 500; }
+
+/* KPI Sensitivity */
+.kpi-sensitivity-row { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 13px 18px; margin-bottom: 8px; display: grid; grid-template-columns: 200px 1fr 160px; align-items: center; gap: 16px; }
+.kpi-move-label { font-size: 11.5px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.kpi-move-sub   { font-size: 10px; color: var(--mid-grey); font-weight: 500; }
+.kpi-impact-tag { text-align: right; }
+.kpi-impact-mult { font-size: 14px; font-weight: 800; color: var(--green); }
+.kpi-impact-note { font-size: 10px; color: var(--mid-grey); font-weight: 500; margin-top: 2px; }
+
+/* Agenda */
+.agenda-box   { background: var(--navy); border-radius: 8px; padding: 18px 22px; margin-top: 14px; }
+.agenda-title { font-size: 11.5px; font-weight: 800; color: var(--white); margin-bottom: 13px; }
+.agenda-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.agenda-item  { display: flex; gap: 8px; align-items: flex-start; }
+.agenda-dot   { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-top: 5px; flex-shrink: 0; }
+.agenda-text  { font-size: 10.5px; color: rgba(255,255,255,.6); font-weight: 500; line-height: 1.5; }
+
+/* Blueprint output */
+.bp-stat { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; text-align: center; }
+.bp-stat-val { font-size: 28px; font-weight: 800; letter-spacing: -0.04em; }
+.bp-stat-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid-grey); margin-top: 3px; }
+.exit-prob-bar { height: 12px; background: var(--off-white); border-radius: 6px; overflow: hidden; margin-top: 10px; }
+.exit-prob-fill { height: 100%; background: linear-gradient(90deg, var(--orange), var(--amber), var(--green)); border-radius: 6px; transition: width 1s ease; }
+
+/* Buttons */
+.btn { padding: 7px 14px; border-radius: 6px; font-size: 10px; font-weight: 700; font-family: 'Montserrat',sans-serif; cursor: pointer; letter-spacing: 0.04em; text-transform: uppercase; transition: all .15s; }
+.btn-outline-navy { border: 1px solid var(--navy); background: transparent; color: var(--navy); }
+.btn-outline-navy:hover { background: var(--navy); color: var(--white); }
+.btn-outline-muted { border: 1px solid var(--border); background: transparent; color: var(--mid-grey); }
+.btn-outline-muted:hover { border-color: var(--mid-grey); }
+
+/* Progress bar dark */
+.prog-track-dark { height: 5px; background: rgba(255,255,255,.1); border-radius: 3px; overflow: hidden; }
+.prog-fill-dark  { height: 100%; background: linear-gradient(90deg, var(--orange), var(--amber)); border-radius: 3px; }
+
+/* Page footer */
+.page-footer { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+.footer-txt  { font-size: 9.5px; color: var(--light-grey); font-weight: 500; }
+
+/* Responsive */
+@media (max-width: 1100px) { .main { margin-left: 0; } .sidebar { display: none; } .content { padding: 18px 18px 40px; } }
+@media (max-width: 768px)  { .g-4,.g-3,.g-2 { grid-template-columns: 1fr; } .scenario-cards { grid-template-columns: 1fr; } .dec-grid { grid-template-columns: 1fr; } .lever-row { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SIDEBAR
+     ════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">DL</div>
+    <span class="sb-brand">Deal Leaders International</span>
+    <span class="sb-client" id="sbClient">Portfolio Company [Alpha]</span>
+    <span class="sb-module">Strategic Exit Partnership Platform</span>
+  </div>
+
+  <div class="sb-progress">
+    <div class="sb-prog-label">SPB Overall Progress</div>
+    <div class="sb-prog-outer"><div class="sb-prog-inner" id="globalProg" style="width:34%"></div></div>
+    <div class="sb-prog-text"><span>34%</span> — 2 of 6 decisions active</div>
+  </div>
+
+  <div class="nav-group-label">SERP Phases</div>
+
+  <button class="nav-item locked">
+    <span class="nav-icon">✓</span> 01 · SERA
+    <span class="nav-badge badge-done">Done</span>
+  </button>
+  <button class="nav-item active" id="nav-spb" onclick="switchPhase('spb')">
+    <span class="nav-icon">◈</span> 02 · SPB
+    <span class="nav-badge badge-active">Active</span>
+  </button>
+  <button class="nav-item" id="nav-ero" onclick="switchPhase('ero')">
+    <span class="nav-icon">▶</span> 03 · ERO
+    <span class="nav-badge badge-live">Live</span>
+  </button>
+  <button class="nav-item" id="nav-ic" onclick="switchPhase('ic')">
+    <span class="nav-icon">◆</span> IC Dashboard
+    <span class="nav-badge badge-ic">PE</span>
+  </button>
+
+  <div class="nav-divider"></div>
+  <div class="nav-group-label">SPB Modules</div>
+  <button class="nav-item sub" onclick="switchPhase('spb'); goModule('m1')">M1 · Exit Intent</button>
+  <button class="nav-item sub" onclick="switchPhase('spb'); goModule('m2')">M2 · Buyer Universe</button>
+  <button class="nav-item sub" onclick="switchPhase('spb'); goModule('m3')">M3 · Value Levers</button>
+  <button class="nav-item sub" onclick="switchPhase('spb'); goModule('m4')">M4 · Decision Register</button>
+  <button class="nav-item sub" onclick="switchPhase('spb'); goModule('m5')">M5 · Blueprint Output</button>
+
+  <div class="nav-divider"></div>
+  <div class="nav-group-label">ERO Modules</div>
+  <button class="nav-item sub" onclick="switchPhase('ero'); switchView('milestones',null)">Critical Path</button>
+  <button class="nav-item sub" onclick="switchPhase('ero'); switchView('sensitivity',null)">KPI Sensitivity</button>
+  <button class="nav-item sub" onclick="switchPhase('ero'); switchView('mastrack',null)">MAS Tracking</button>
+  <button class="nav-item sub" onclick="switchPhase('ero'); switchView('quarterly',null)">Quarterly Reviews</button>
+  <button class="nav-item sub" onclick="switchPhase('ero'); switchView('valuation',null)">Valuation Bridge</button>
+
+  <div class="nav-divider"></div>
+  <div class="nav-group-label">IC Dashboard</div>
+  <button class="nav-item sub" onclick="switchPhase('ic'); switchICView('irr',null)">IRR Simulation</button>
+  <button class="nav-item sub" onclick="switchPhase('ic'); switchICView('timing',null)">Exit Timing</button>
+  <button class="nav-item sub" onclick="switchPhase('ic'); switchICView('attribution',null)">Uplift Attribution</button>
+  <button class="nav-item sub" onclick="switchPhase('ic'); switchICView('readiness',null)">Exit Readiness</button>
+
+  <div class="sb-footer">
+    <div class="sb-footer-text">DLI Advisory · Confidential<br>Engagement Start: January 2025<br>Target Exit Window: Q3–Q4 2026</div>
+  </div>
+</aside>
+
+<!-- ════════════════════════════════════════════
+     MAIN
+     ════════════════════════════════════════════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Strategic Positioning Blueprint — SPB</div>
+    <div class="topbar-meta">
+      <span class="topbar-item"><span class="status-dot dot-green"></span><strong>SERP Active</strong></span>
+      <span class="topbar-item">Baseline: <strong>R120M</strong></span>
+      <span class="topbar-item">Target: <strong>R192M</strong></span>
+      <span class="topbar-item">Exit: <strong>Q3–Q4 2026</strong></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SPB PANEL
+       ══════════════════════════════ -->
+  <div id="panel-spb" class="content anim">
+    <div class="phase-banner">
+      <div>
+        <div class="pb-title">Strategic Positioning Blueprint</div>
+        <div class="pb-sub">Translating SERA findings into explicit strategic choices that reshape exit timing, buyer universe, valuation trajectory, MAS evolution, and exit probability.</div>
+      </div>
+      <div class="pb-meta">
+        <div class="pb-meta-label">Exit Probability Index</div>
+        <div class="pb-meta-val" style="color:var(--orange)">72%</div>
+        <div class="pb-meta-note">↑ from 51% at SERA</div>
+      </div>
+    </div>
+
+    <!-- MODULE 1: EXIT INTENT -->
+    <div id="m1" class="mb-28">
+      <div class="module-header">
+        <span class="module-number">MODULE 1</span>
+        <div>
+          <div class="module-title">Exit Intent Clarification</div>
+          <div class="module-sub">Formalising the exit parameters that drive every strategic decision downstream</div>
+        </div>
+      </div>
+
+      <div class="g-3 mb-14">
+        <div class="card">
+          <div class="col-label">Exit Horizon</div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--mid-grey);margin-bottom:4px">
+              <span>0–2 yrs</span><span>2–4 yrs</span><span>5+ yrs</span>
+            </div>
+            <input type="range" min="1" max="3" value="2" id="horizonSlider" oninput="updateHorizon(this.value)">
+          </div>
+          <div class="col-val" id="horizonVal" style="color:var(--orange);margin-top:4px;font-size:14px">2–4 Years</div>
+          <div class="col-sub">Exit Horizon Index: <strong>Medium-Term</strong></div>
+        </div>
+        <div class="card">
+          <div class="col-label">Capital Strategy</div>
+          <select onchange="updateCapital(this.value)" style="width:100%;margin-top:8px">
+            <option value="full">Full Exit (100% disposal)</option>
+            <option value="partial">Partial Exit — majority sale</option>
+            <option value="minority">Minority sale — liquidity event</option>
+            <option value="rollover">Management roll-over retained</option>
+          </select>
+          <div class="col-sub" style="margin-top:8px" id="capitalNote">Maximises buyer pool and competitive tension. Recommended for current profile.</div>
+        </div>
+        <div class="card">
+          <div class="col-label">Buyer Bias</div>
+          <select style="width:100%;margin-top:8px" onchange="updateBias(this.value)">
+            <option value="strategic">Strategic Acquirer preferred</option>
+            <option value="pe">Private Equity preferred</option>
+            <option value="agnostic" selected>Buyer-agnostic — highest value</option>
+            <option value="mbo">MBO / management continuity</option>
+          </select>
+          <div class="col-sub" style="margin-top:8px" id="biasNote">Agnostic approach maximises DLI's ability to engineer competitive tension across all buyer tiers.</div>
+        </div>
+      </div>
+
+      <div class="g-4 mb-14">
+        <div class="kpi-card" style="border-top-color:var(--orange)">
+          <div class="kpi-label">Exit Intent Score</div>
+          <div class="kpi-value" style="color:var(--orange)">78</div>
+          <div class="kpi-sub">/ 100 · Strong alignment</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--royal)">
+          <div class="kpi-label">Horizon Index</div>
+          <div class="kpi-value" style="color:var(--royal)">M-T</div>
+          <div class="kpi-sub">18–24 months to process</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--green)">
+          <div class="kpi-label">Control Objective</div>
+          <div class="kpi-value" style="color:var(--green);font-size:18px">Full</div>
+          <div class="kpi-sub">Board approved — full disposal</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--warn)">
+          <div class="kpi-label">Mgmt Continuity</div>
+          <div class="kpi-value" style="color:var(--warn);font-size:18px">High</div>
+          <div class="kpi-sub">CEO + 2 Directors retained</div>
+        </div>
+      </div>
+
+      <div class="card-tinted">
+        <div style="font-size:12px;color:var(--royal);font-weight:600;line-height:1.65">
+          <strong>Strategic Alignment:</strong> Exit intent is well-defined and aligns with the SPB's 2–4 year horizon. The buyer-agnostic stance gives DLI maximum latitude to engineer a competitive process across strategic and PE buyer tiers. Management continuity commitment will be a material positive in both PE (key-man risk) and strategic (integration risk) diligence.
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2: BUYER UNIVERSE RE-ENGINEERING -->
+    <div id="m2" class="mb-28">
+      <div class="module-header">
+        <span class="module-number">MODULE 2</span>
+        <div>
+          <div class="module-title">Buyer Universe Re-Engineering</div>
+          <div class="module-sub">What must change for a better buyer to buy? — DLI's proprietary tier-by-tier buyer architecture</div>
+        </div>
+        <span class="pill p-orange" style="margin-left:auto;padding:6px 12px;font-size:10px">🔒 DLI Proprietary</span>
+      </div>
+
+      <div class="card mb-14" style="background:var(--navy);border:none">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center">
+          <div>
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Current Buyer Pool</div>
+            <div style="font-size:32px;font-weight:800;color:var(--orange);line-height:1">18</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:500">Qualified buyers today</div>
+          </div>
+          <div>
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Potential Pool (SPB)</div>
+            <div style="font-size:32px;font-weight:800;color:var(--azure);line-height:1">64</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:500">If key gaps closed</div>
+          </div>
+          <div>
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Buyer Pool Uplift</div>
+            <div style="font-size:32px;font-weight:800;color:var(--green-mid);line-height:1">256%</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:500">Expansion on full execution</div>
+          </div>
+          <div>
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">MAS Shift</div>
+            <div style="font-size:20px;font-weight:800;color:var(--amber);line-height:1;margin-top:6px">B → A</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:500;margin-top:4px">Category on full execution</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tierList"></div>
+
+      <div class="card-tinted">
+        <div style="font-size:12px;color:var(--royal);font-weight:500;line-height:1.65">
+          <strong>DLI Intelligence:</strong> Repositioning strategically from Tier 1 to Tier 3 requires 18–24 months of disciplined execution. Each gap closed does not just add buyers — it increases competitive tension in the process, which DLI's structured market approach is specifically designed to engineer. No single-buyer negotiation can replicate this dynamic.
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: VALUE CREATION LEVERS -->
+    <div id="m3" class="mb-28">
+      <div class="module-header">
+        <span class="module-number">MODULE 3</span>
+        <div>
+          <div class="module-title">Value Creation Levers</div>
+          <div class="module-sub">Buyer-specific levers — each linked to buyer psychology, not generic consulting improvement</div>
+        </div>
+        <div class="filter-bar" style="margin-left:auto">
+          <button class="filter-btn active" onclick="filterLevers('all',this)">All</button>
+          <button class="filter-btn" onclick="filterLevers('high',this)">High</button>
+          <button class="filter-btn" onclick="filterLevers('medium',this)">Medium</button>
+        </div>
+      </div>
+
+      <!-- Scenario Model -->
+      <div class="scenario-cards mb-14">
+        <div class="scenario-card sq active" id="sc-sq" onclick="selectScenario('sq')">
+          <div class="sc-label">Status Quo</div>
+          <div class="sc-val">R120M</div>
+          <div class="sc-sub">No strategic repositioning</div>
+          <div class="sc-mult" style="color:var(--dark-grey)">4.8x EBITDA</div>
+          <div class="sc-buyers">Buyer pool: 18 qualified</div>
+        </div>
+        <div class="scenario-card opt" id="sc-opt" onclick="selectScenario('opt')">
+          <div class="sc-label">Optimised (SPB)</div>
+          <div class="sc-val">R164M</div>
+          <div class="sc-sub">Key levers executed (12–18 mo)</div>
+          <div class="sc-mult">5.8x EBITDA</div>
+          <div class="sc-buyers">Buyer pool: 38 qualified</div>
+        </div>
+        <div class="scenario-card prm" id="sc-prm" onclick="selectScenario('prm')">
+          <div class="sc-label">Premium Tier (Full SPB)</div>
+          <div class="sc-val">R192M</div>
+          <div class="sc-sub">All levers + DLI process premium</div>
+          <div class="sc-mult">6.6x EBITDA + DLI premium</div>
+          <div class="sc-buyers">Buyer pool: 64 qualified</div>
+        </div>
+      </div>
+
+      <!-- Lever table headers -->
+      <div style="display:grid;grid-template-columns:1fr 90px 90px 100px 100px 90px;gap:12px;padding:0 18px 8px;color:var(--light-grey);font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase">
+        <span>Value Lever</span><span>Value Impact</span><span>MAS Impact</span><span>Time to Achieve</span><span>Capital Required</span><span>Risk</span>
+      </div>
+
+      <div id="leverList"></div>
+    </div>
+
+    <!-- MODULE 4: DECISION REGISTER -->
+    <div id="m4" class="mb-28">
+      <div class="module-header">
+        <span class="module-number">MODULE 4</span>
+        <div>
+          <div class="module-title">Strategic Decision Register</div>
+          <div class="module-sub">Major decisions that will alter exit probability — with live multiple simulation</div>
+        </div>
+        <div class="filter-bar" style="margin-left:auto">
+          <button class="filter-btn active" onclick="filterDec('all',this)">All</button>
+          <button class="filter-btn" onclick="filterDec('high',this)">High MAS</button>
+          <button class="filter-btn" onclick="filterDec('medium',this)">Medium</button>
+          <button class="filter-btn" onclick="filterDec('low',this)">Low</button>
+        </div>
+      </div>
+      <div id="decisionList"></div>
+    </div>
+
+    <!-- MODULE 5: BLUEPRINT OUTPUT -->
+    <div id="m5" class="mb-20">
+      <div class="module-header">
+        <span class="module-number">MODULE 5</span>
+        <div>
+          <div class="module-title">Blueprint Output</div>
+          <div class="module-sub">Board-ready strategic summary — exit path narrative, target buyer tier, valuation band, exit probability</div>
+        </div>
+      </div>
+
+      <div class="g-4 mb-14">
+        <div class="bp-stat"><div class="bp-stat-val" style="color:var(--orange)">R192M</div><div class="bp-stat-label">Target Valuation</div></div>
+        <div class="bp-stat"><div class="bp-stat-val" style="color:var(--royal)">Tier 3</div><div class="bp-stat-label">Target Buyer Tier</div></div>
+        <div class="bp-stat"><div class="bp-stat-val" style="color:var(--green)">6.6x</div><div class="bp-stat-label">Target EBITDA Multiple</div></div>
+        <div class="bp-stat"><div class="bp-stat-val" style="color:var(--teal)">Q3 2026</div><div class="bp-stat-label">Target Exit Window</div></div>
+      </div>
+
+      <div class="card mb-14">
+        <div class="section-title" style="margin-bottom:8px">Exit Probability Index</div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+          <div style="font-size:42px;font-weight:800;color:var(--orange);letter-spacing:-0.05em;line-height:1">72%</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px">Strong — above target threshold</div>
+            <div style="font-size:11px;color:var(--mid-grey);font-weight:500">↑ 21 percentage points from SERA baseline (51%) — driven by decision register progress and MAS evolution</div>
+          </div>
+        </div>
+        <div class="exit-prob-bar"><div class="exit-prob-fill" style="width:72%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:9px;font-weight:600;color:var(--light-grey)">
+          <span>0% — No viable exit path</span><span>50% — Threshold</span><span>100% — Certainty</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px">MAS Evolution Roadmap</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+          <div style="padding:14px 16px;background:var(--off-white);border-right:1px solid var(--border)">
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-bottom:6px">SERA (Today)</div>
+            <div style="font-size:16px;font-weight:800;color:var(--danger);margin-bottom:3px">Category B</div>
+            <div style="font-size:10px;color:var(--mid-grey);font-weight:500">18 qualified buyers · 4.8x</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--white);border-right:1px solid var(--border)">
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-bottom:6px">Q2 2025 Review</div>
+            <div style="font-size:16px;font-weight:800;color:var(--warn);margin-bottom:3px">Category B+</div>
+            <div style="font-size:10px;color:var(--mid-grey);font-weight:500">28 qualified buyers · 5.2x</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--white);border-right:1px solid var(--border)">
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-bottom:6px">Q4 2025 Review</div>
+            <div style="font-size:16px;font-weight:800;color:var(--royal);margin-bottom:3px">Category A–</div>
+            <div style="font-size:10px;color:var(--mid-grey);font-weight:500">48 qualified buyers · 6.0x</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--green-light)">
+            <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-bottom:6px">Process Launch</div>
+            <div style="font-size:16px;font-weight:800;color:var(--green);margin-bottom:3px">Category A</div>
+            <div style="font-size:10px;color:var(--mid-grey);font-weight:500">64 qualified buyers · 6.6x+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="footer-txt">DLI Advisory · Strategic Exit Partnership Platform · Confidential & Proprietary</span>
+      <span class="footer-txt" id="footerSPB"></span>
+    </div>
+  </div><!-- /panel-spb -->
+
+  <!-- ══════════════════════════════
+       ERO PANEL
+       ══════════════════════════════ -->
+  <div id="panel-ero" class="content hidden">
+    <div class="phase-banner">
+      <div>
+        <div class="pb-title">Execution Roadmap & Oversight</div>
+        <div class="pb-sub">SPB designs. ERO disciplines. Critical path tracking, quarterly valuation recalibration, MAS dynamic monitoring, and governance that makes DLI the indispensable exit partner.</div>
+      </div>
+      <div class="pb-meta">
+        <div class="pb-meta-label">Exit Readiness Index</div>
+        <div class="pb-meta-val" style="color:var(--green)">64/100</div>
+        <div class="pb-meta-note">↑ 13 pts this quarter</div>
+      </div>
+    </div>
+
+    <div class="g-4 mb-20" id="eroKPIs"></div>
+
+    <div class="view-toggle mb-14" id="eroToggle">
+      <button class="view-btn active" onclick="switchView('milestones',this)">Critical Path</button>
+      <button class="view-btn" onclick="switchView('sensitivity',this)">KPI Sensitivity</button>
+      <button class="view-btn" onclick="switchView('mastrack',this)">MAS Tracking</button>
+      <button class="view-btn" onclick="switchView('quarterly',this)">Quarterly Reviews</button>
+      <button class="view-btn" onclick="switchView('valuation',this)">Valuation Bridge</button>
+    </div>
+
+    <!-- Critical Path -->
+    <div id="view-milestones" class="anim">
+      <div class="section-header">
+        <div><div class="section-title">Critical Path & Milestone Sequencing</div><div class="section-sub">DLI quarterly reviews embedded as formal critical path events — not optional check-ins</div></div>
+      </div>
+      <div id="milestoneList"></div>
+    </div>
+
+    <!-- KPI Sensitivity -->
+    <div id="view-sensitivity" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">KPI Sensitivity Model</div><div class="section-sub">Valuation impact per unit improvement in key operating metrics — reviewed and recalibrated quarterly</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:200px 1fr 160px;gap:12px;padding:0 18px 8px;color:var(--light-grey);font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase" class="mb-8">
+        <span>KPI Movement</span><span>Valuation Sensitivity Bar</span><span>Multiple / Valuation Impact</span>
+      </div>
+      <div id="sensitivityList"></div>
+      <div class="card-tinted" style="margin-top:12px">
+        <div style="font-size:12px;color:var(--royal);font-weight:500;line-height:1.65">
+          <strong>DLI Advisory:</strong> These sensitivity metrics are recalibrated each quarter as management accounts are reviewed. Any KPI movement above 2% margin improvement triggers a mandatory valuation bridge update. DLI tracks these movements against the buyer attractiveness thresholds for Tier 2 → Tier 3 uplift.
+        </div>
+      </div>
+    </div>
+
+    <!-- MAS Dynamic Tracking -->
+    <div id="view-mastrack" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">MAS Dynamic Tracking</div><div class="section-sub">DLI's live market intelligence — buyer appetite, sector multiples, competitive consolidation. Updated quarterly.</div></div>
+        <span class="pill p-orange">Live Intelligence</span>
+      </div>
+      <div class="g-4 mb-14">
+        <div class="kpi-card" style="border-top-color:var(--royal)">
+          <div class="kpi-label">Sector Multiple</div>
+          <div class="kpi-value" style="color:var(--royal)">5.8x</div>
+          <div class="kpi-sub">↑ 0.3x this quarter</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--green)">
+          <div class="kpi-label">Active Consolidators</div>
+          <div class="kpi-value" style="color:var(--green)">4</div>
+          <div class="kpi-sub">In sector · buying now</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--orange)">
+          <div class="kpi-label">PE Appetite</div>
+          <div class="kpi-value" style="color:var(--orange)">↑</div>
+          <div class="kpi-sub">Medium-High · improving</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--warn)">
+          <div class="kpi-label">Comparable Exits</div>
+          <div class="kpi-value" style="color:var(--warn)">3</div>
+          <div class="kpi-sub">Last 90 days · benchmarked</div>
+        </div>
+      </div>
+      <div id="masSignalList"></div>
+      <div class="card-tinted" style="margin-top:12px">
+        <div style="font-size:12px;color:var(--royal);font-weight:500;line-height:1.65">
+          <strong>MAS Status: B+ → Improving.</strong> Sector consolidation activity is increasing competitive tension in the buyer pool. DLI's live deal pipeline (20–30 active processes) provides direct intelligence on which buyers are active, what they are paying, and what conditions they are applying. This intelligence is embedded into every quarterly MAS update.
+        </div>
+      </div>
+    </div>
+
+    <!-- Quarterly Reviews -->
+    <div id="view-quarterly" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">Quarterly Review Dashboard</div><div class="section-sub">DLI governance cadence — valuation, MAS, KPIs and exit readiness reviewed every quarter</div></div>
+      </div>
+      <div id="qrList"></div>
+      <div class="agenda-box">
+        <div class="agenda-title">DLI Standard Quarterly Review Agenda</div>
+        <div class="agenda-grid" id="agendaGrid"></div>
+      </div>
+    </div>
+
+    <!-- Valuation Bridge -->
+    <div id="view-valuation" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">Valuation Bridge</div><div class="section-sub">Each strategic decision mapped to its exit value contribution — SERA baseline to SPB target</div></div>
+      </div>
+      <div class="card">
+        <div id="bridgeRows"></div>
+        <div class="card-tinted" style="margin-top:14px">
+          <div style="font-size:12px;color:var(--royal);font-weight:500;line-height:1.65">
+            <strong>⭐ DLI Process Premium (R16M):</strong> This portion of the valuation uplift is attributable exclusively to DLI's structured market process — engineered competitive tension, buyer psychology management, and asymmetric market intelligence from 1,500+ annual buyer interactions. This premium is contingent on DLI running the process. It cannot be replicated by management or internal negotiation.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="footer-txt">DLI Advisory · Strategic Exit Partnership Platform · Confidential & Proprietary</span>
+      <span class="footer-txt" id="footerERO"></span>
+    </div>
+  </div><!-- /panel-ero -->
+
+  <!-- ══════════════════════════════
+       IC DASHBOARD PANEL
+       ══════════════════════════════ -->
+  <div id="panel-ic" class="content hidden">
+    <div class="ic-banner">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+        <div>
+          <div class="ic-banner-title">Investment Committee Dashboard</div>
+          <div class="ic-banner-sub">PE fund-level exit analytics — IRR simulation, exit timing scenarios, uplift attribution, and exit readiness traffic lights</div>
+        </div>
+        <span class="pill p-purple" style="padding:6px 14px;font-size:10px">IC CONFIDENTIAL</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px">
+      <div class="ic-kpi"><div class="ic-kpi-label">Fund IRR (Current)</div><div class="ic-kpi-val" style="color:var(--orange)">14.2%</div><div class="ic-kpi-sub">vs. 18% target</div></div>
+      <div class="ic-kpi"><div class="ic-kpi-label">IRR (SPB Optimised)</div><div class="ic-kpi-val" style="color:var(--amber)">19.8%</div><div class="ic-kpi-sub">Full execution</div></div>
+      <div class="ic-kpi"><div class="ic-kpi-label">Exit Probability</div><div class="ic-kpi-val">72%</div><div class="ic-kpi-sub">On current trajectory</div></div>
+      <div class="ic-kpi"><div class="ic-kpi-label">Competitive Position</div><div class="ic-kpi-val" style="color:var(--green-mid)">B+</div><div class="ic-kpi-sub">Improving quarterly</div></div>
+      <div class="ic-kpi"><div class="ic-kpi-label">DLI Value at Risk</div><div class="ic-kpi-val" style="color:var(--danger)">R16M</div><div class="ic-kpi-sub">If process not DLI-run</div></div>
+    </div>
+
+    <div class="view-toggle mb-14">
+      <button class="view-btn active" onclick="switchICView('irr',this)">IRR Simulation</button>
+      <button class="view-btn" onclick="switchICView('timing',this)">Exit Timing</button>
+      <button class="view-btn" onclick="switchICView('attribution',this)">Uplift Attribution</button>
+      <button class="view-btn" onclick="switchICView('readiness',this)">Exit Readiness</button>
+    </div>
+
+    <!-- IRR Simulation -->
+    <div id="ic-irr" class="anim">
+      <div class="section-header">
+        <div><div class="section-title">IRR Impact Simulation</div><div class="section-sub">Three exit scenarios mapped to LP distributions — modelled on current capital structure and exit window assumptions</div></div>
+      </div>
+      <div id="irrList"></div>
+      <div class="card-tinted" style="margin-top:12px">
+        <div style="font-size:12px;color:var(--royal);font-weight:500;line-height:1.65">
+          <strong>Fund Impact:</strong> The difference between Status Quo and Premium Tier execution is <strong>+5.6% net IRR</strong> and <strong>+R72M in exit proceeds</strong>. At fund level (assuming 15% portfolio weight), this represents a material DPI improvement. DLI's SERP fee is recovered within the first 0.3x multiple uplift.
+        </div>
+      </div>
+    </div>
+
+    <!-- Exit Timing -->
+    <div id="ic-timing" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">Exit Timing Scenarios</div><div class="section-sub">IRR sensitivity across exit windows — optimal window identified at Q3–Q4 2026 given current readiness trajectory</div></div>
+      </div>
+      <div class="card" style="margin-bottom:14px">
+        <div id="timingRows"></div>
+      </div>
+      <div class="card-amber">
+        <div style="font-size:12px;color:var(--warn);font-weight:600;line-height:1.65">
+          <strong>⚠ Timing Risk:</strong> Exiting before Q3 2026 at current readiness scores forfeits an estimated R44M in achievable valuation uplift and limits the buyer pool to Tier 1 only (18 buyers). Every quarter of disciplined SPB execution adds approximately R8–12M to achievable exit value. DLI's ERO ensures this trajectory is maintained.
+        </div>
+      </div>
+    </div>
+
+    <!-- Uplift Attribution -->
+    <div id="ic-attribution" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">Uplift Attribution Analysis</div><div class="section-sub">Where does the R72M valuation uplift come from? — management actions vs. DLI process contribution</div></div>
+      </div>
+      <div class="g-2 mb-14">
+        <div class="card-dark">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px">Management Execution Value</div>
+          <div style="font-size:40px;font-weight:800;color:var(--azure);letter-spacing:-0.04em;line-height:1;margin-bottom:4px">R56M</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:500;margin-bottom:14px">78% of total uplift — operational improvements</div>
+          <div style="height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:78%;background:linear-gradient(90deg,var(--azure),var(--sky));border-radius:3px"></div>
+          </div>
+        </div>
+        <div class="card-dark" style="border:2px solid rgba(255,86,11,.4)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px">DLI Process Premium</div>
+          <div style="font-size:40px;font-weight:800;color:var(--orange);letter-spacing:-0.04em;line-height:1;margin-bottom:4px">R16M</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:14px">22% of total uplift — DLI buyer process only</div>
+          <div style="height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:22%;background:var(--orange);border-radius:3px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="font-size:12px;margin-bottom:12px">Attribution Breakdown by Decision</div>
+        <div id="attributionList"></div>
+      </div>
+    </div>
+
+    <!-- Exit Readiness Traffic Light -->
+    <div id="ic-readiness" class="hidden anim">
+      <div class="section-header">
+        <div><div class="section-title">Exit Readiness Traffic Light System</div><div class="section-sub">IC-ready view — across all six readiness dimensions, scored against institutional buyer expectations</div></div>
+      </div>
+      <div id="readinessList"></div>
+      <div class="card" style="margin-top:14px">
+        <div class="section-title" style="font-size:12px;margin-bottom:12px">Competitive Position Index</div>
+        <div class="g-3">
+          <div style="text-align:center;padding:16px">
+            <div style="font-size:34px;font-weight:800;color:var(--royal);letter-spacing:-0.04em">B+</div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-top:3px">Current Position</div>
+          </div>
+          <div style="text-align:center;padding:16px;border-left:1px solid var(--border);border-right:1px solid var(--border)">
+            <div style="font-size:34px;font-weight:800;color:var(--green);letter-spacing:-0.04em">A</div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-top:3px">Target (Q3 2026)</div>
+          </div>
+          <div style="text-align:center;padding:16px">
+            <div style="font-size:34px;font-weight:800;color:var(--orange);letter-spacing:-0.04em">+46</div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-top:3px">Buyer Pool Expansion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="footer-txt">DLI Advisory · IC Dashboard · Strictly Confidential · Not for Distribution</span>
+      <span class="footer-txt" id="footerIC"></span>
+    </div>
+  </div><!-- /panel-ic -->
+
+</div><!-- /main -->
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   DATA
+   ══════════════════════════════════════════════════════════ */
+const TIERS = [
+  { id:'t1', badge:'t1', label:'Tier 1', name:'Current Viable Buyers', desc:'Buyers who would engage at current readiness. No structural repositioning required — process can commence now with this pool.', delta:'+R0M', deltaCol:'var(--mid-grey)', count:'18 qualified', buyers:['Domestic strategic consolidators','Regional PE growth funds','Family office investors'], gaps:[
+    { text:'Proceed to DLI structured process immediately', effort:'Ready now', col:'var(--green)', gap:false },
+    { text:'Single-buyer risk: only 18 buyers without repositioning', effort:'Risk factor', col:'var(--danger)', gap:true },
+  ]},
+  { id:'t2', badge:'t2', label:'Tier 2', name:'Buyers Viable if X Gaps Closed', desc:'Buyers who become viable once recurring revenue, key-person risk and governance gaps are closed. 12–15 month execution window.', delta:'+R44M', deltaCol:'var(--royal)', count:'+20 buyers unlocked', buyers:['Pan-African PE buyout funds','International sector specialists','Corporate divestiture buyers'], gaps:[
+    { text:'Recurring revenue contracts with anchor clients', effort:'12–15 months', col:'var(--warn)', gap:true },
+    { text:'Reduce key-person dependency (CEO succession plan)', effort:'9–12 months', col:'var(--warn)', gap:true },
+    { text:'IFRS audit with 3-year clean track record', effort:'6–9 months', col:'var(--warn)', gap:true },
+  ]},
+  { id:'t3', badge:'t3', label:'Tier 3', name:'Premium Strategic Acquirers', desc:'International and platform-level strategic acquirers requiring structural repositioning. Highest valuation potential — 18–24 month execution required.', delta:'+R72M', deltaCol:'var(--teal)', count:'+26 buyers unlocked', buyers:['International strategic acquirers','PE platform acquisition mandates','Listed acquirers (JSE + international)'], gaps:[
+    { text:'Geographic diversification — adjacent market entry', effort:'18–24 months', col:'var(--danger)', gap:true },
+    { text:'Revenue mix: 65%+ recurring before process', effort:'15–18 months', col:'var(--danger)', gap:true },
+    { text:'Clean cap table and minority resolution', effort:'3–6 months', col:'var(--green)', gap:false },
+    { text:'Board governance and independent NEDs', effort:'6–9 months', col:'var(--warn)', gap:true },
+  ]},
+  { id:'t4', badge:'t4', label:'Tier 4', name:'International & Platform Buyers', desc:'The highest-value category — international acquirers and PE platforms building a buy-and-build strategy in the sector. Requires full SPB execution.', delta:'+R92M', deltaCol:'var(--purple)', count:'+8 ultra-premium buyers', buyers:['International strategic with geographic expansion mandates','PE platforms building SA market position','SPAC / listed vehicle acquisition mandates'], gaps:[
+    { text:'Full international compliance and ESG framework', effort:'18–24 months', col:'var(--danger)', gap:true },
+    { text:'Scalability proof — 2+ geographies with revenue', effort:'24 months', col:'var(--danger)', gap:true },
+    { text:'Management team depth (not founder-dependent)', effort:'12–18 months', col:'var(--warn)', gap:true },
+    { text:'Technology stack IP documentation — watertight', effort:'6 months', col:'var(--warn)', gap:true },
+  ]},
+];
+
+const LEVERS = [
+  { name:'Revenue Concentration Reduction', link:'Expands strategic buyer pool from 4 to 14 acquirers', impact:9, mas:9, time:'12–18 mo', capital:'Low', risk:'Low', cat:'high' },
+  { name:'Recurring Revenue Shift (LTA contracts)', link:'PE multiple uplift from 4.8x to 6.0x. Platform acquisition fit.', impact:9, mas:9, time:'12–15 mo', capital:'Low', risk:'Medium', cat:'high' },
+  { name:'Key-Person Risk Removal (CEO succession)', link:'Removes #1 DD discount factor across all buyer categories', impact:9, mas:8, time:'9–12 mo', capital:'Low', risk:'Low', cat:'high' },
+  { name:'Geographic Diversification (1 new market)', link:'Trade premium from international buyers. Tier 3 unlocked.', impact:8, mas:9, time:'18–24 mo', capital:'High', risk:'High', cat:'high' },
+  { name:'Governance Formalisation (Board + NEDs)', link:'Unlocks international buyers and institutional PE mandates', impact:7, mas:8, time:'6–9 mo', capital:'Low', risk:'Low', cat:'high' },
+  { name:'Margin Normalisation & EBITDA Clean-up', link:'PE multiple uplift — each 1% margin improvement ≈ +0.2x multiple', impact:8, mas:7, time:'6–12 mo', capital:'Low', risk:'Medium', cat:'medium' },
+  { name:'IFRS Financial Reporting (Audited)', link:'Non-negotiable for international strategic buyers and PE', impact:7, mas:6, time:'6–9 mo', capital:'Medium', risk:'Low', cat:'medium' },
+  { name:'IP & Technology Documentation', link:'Critical for technology acquirers — chain of title required', impact:6, mas:6, time:'3–6 mo', capital:'Low', risk:'Low', cat:'medium' },
+  { name:'Management Information System Upgrade', link:'Reduces DD friction by 40% — buyers close faster and with more confidence', impact:6, mas:5, time:'6–9 mo', capital:'Medium', risk:'Low', cat:'medium' },
+  { name:'LTIP Introduction for Key Management', link:'Aligns management incentives with exit — reduces key-person perception risk', impact:5, mas:5, time:'3–6 mo', capital:'Low', risk:'Low', cat:'medium' },
+];
+
+const DECISIONS = [
+  { id:1, text:'Reduce key-person dependency on CEO through succession and delegation framework', impact:9, mas:'high', complexity:'Medium', timeline:'Q2 2025', owner:'Board / CEO', status:'In Progress', rationale:'Single biggest DD risk across all buyer categories. PE and strategic acquirers will both discount materially on this.', multBefore:'4.8x', multAfter:'5.4x', valBefore:'R120M', valAfter:'R134M' },
+  { id:2, text:'Implement recurring revenue model with long-term contracts for top 5 anchor clients', impact:9, mas:'high', complexity:'High', timeline:'Q3 2025', owner:'CEO / Commercial', status:'Planned', rationale:'Transforms revenue quality and risk profile. Unlocks higher EBITDA multiples from PE buyers.', multBefore:'4.8x', multAfter:'6.0x', valBefore:'R120M', valAfter:'R150M' },
+  { id:3, text:'Standardise financial reporting to IFRS with clean, independently audited trail', impact:8, mas:'medium', complexity:'Medium', timeline:'Q1 2025', owner:'CFO', status:'In Progress', rationale:'Non-negotiable for international buyers. Reduces DD friction by 30–40%.', multBefore:'5.2x', multAfter:'5.6x', valBefore:'R120M', valAfter:'R130M' },
+  { id:4, text:'Formalise IP ownership structure and document technology stack with clear chain of title', impact:7, mas:'medium', complexity:'Low', timeline:'Q2 2025', owner:'CTO / Legal', status:'Not Started', rationale:'Technology acquirers require unambiguous IP chain of title. Frequent cause of last-minute price chips.', multBefore:'5.6x', multAfter:'5.9x', valBefore:'R130M', valAfter:'R138M' },
+  { id:5, text:'Expand into one adjacent geography to demonstrate scalability and reduce revenue concentration', impact:7, mas:'high', complexity:'High', timeline:'Q4 2025', owner:'CEO / Strategy', status:'Planned', rationale:'Scalability narrative critical for PE buyers. Geographic diversification opens Tier 3 buyer category.', multBefore:'5.8x', multAfter:'6.4x', valBefore:'R140M', valAfter:'R160M' },
+  { id:6, text:'Resolve minority shareholder position and clean up capital table ahead of any formal process', impact:6, mas:'low', complexity:'Medium', timeline:'Q1 2025', owner:'CEO / Legal', status:'In Progress', rationale:'Capital table complexity deters buyers and creates legal risk in due diligence.', multBefore:'5.6x', multAfter:'5.8x', valBefore:'R130M', valAfter:'R135M' },
+];
+
+const MILESTONES = [
+  { phase:'Q1 2025', name:'SERA Findings Presented to Board', status:'complete', owner:'DLI Advisory', critical:true, notes:'Baseline R120M · MAS v1.0 issued · 6 gaps identified.' },
+  { phase:'Q1 2025', name:'SPB Approved & Decision Register Locked', status:'complete', owner:'Board + DLI', critical:true, notes:'6 decisions sequenced, owned and resourced.' },
+  { phase:'Q1 2025', name:'IFRS-compliant audit — FY2024', status:'in-progress', owner:'CFO', critical:true, notes:'Audit firm engaged. Target completion March 2025.' },
+  { phase:'Q1 2025', name:'Cap table clean-up and minority resolution', status:'in-progress', owner:'CEO / Legal', critical:false, notes:'Term sheet under negotiation.' },
+  { phase:'Q2 2025', name:'CEO succession plan documented and ratified', status:'in-progress', owner:'Board / CEO', critical:true, notes:'Shortlist under review. Transition plan to follow.' },
+  { phase:'Q2 2025', name:'IP & technology documentation completed', status:'not-started', owner:'CTO / Legal', critical:false, notes:'' },
+  { phase:'Q2 2025', name:'Q1 Quarterly Review — DLI Advisory', status:'not-started', owner:'DLI Advisory', critical:true, notes:'Valuation bridge update + MAS v1.1.' },
+  { phase:'Q3 2025', name:'Recurring revenue contracts — 3 of 5 anchor clients signed', status:'not-started', owner:'Commercial', critical:true, notes:'' },
+  { phase:'Q3 2025', name:'MIS upgraded to buyer-ready standard', status:'not-started', owner:'CFO / Ops', critical:false, notes:'' },
+  { phase:'Q3 2025', name:'Q2 Quarterly Review — DLI Advisory', status:'not-started', owner:'DLI Advisory', critical:true, notes:'' },
+  { phase:'Q4 2025', name:'Adjacent market — first revenue milestone achieved', status:'not-started', owner:'CEO', critical:true, notes:'' },
+  { phase:'Q4 2025', name:'Q3 Quarterly Review — Exit Readiness Scorecard', status:'not-started', owner:'DLI Advisory', critical:true, notes:'' },
+  { phase:'Q1 2026', name:'Vendor Due Diligence (VDD) initiated', status:'not-started', owner:'DLI + Management', critical:true, notes:'' },
+  { phase:'Q2 2026', name:'Information Memorandum drafted and reviewed', status:'not-started', owner:'DLI Advisory', critical:true, notes:'' },
+  { phase:'Q3 2026', name:'Buyer approach — DLI structured market process launch', status:'not-started', owner:'DLI Advisory', critical:true, notes:'' },
+  { phase:'Q4 2026', name:'LOI / Term Sheet received from priority buyer', status:'not-started', owner:'DLI Advisory', critical:true, notes:'' },
+];
+
+const SENSITIVITY = [
+  { move:'+1% EBITDA Margin', sub:'Per point of margin improvement', fill:70, col:'var(--orange)', mult:'+0.2x multiple', impact:'+R4.8M' },
+  { move:'+R5M Revenue (recurring)', sub:'New long-term contract revenue', fill:55, col:'var(--royal)', mult:'+0.3x multiple', impact:'+R7.2M' },
+  { move:'CEO Succession Complete', sub:'Key-person risk resolved', fill:80, col:'var(--green)', mult:'+0.6x multiple', impact:'+R14M' },
+  { move:'+1 New Geography (revenue)', sub:'Adjacent market with proof of revenue', fill:65, col:'var(--teal)', mult:'+0.5x multiple', impact:'+R11M' },
+  { move:'Governance Board (NEDs added)', sub:'Independent non-executive directors seated', fill:45, col:'var(--purple)', mult:'+0.3x multiple', impact:'+R7M' },
+  { move:'Revenue Concentration <30%', sub:'Top client <30% of total revenue', fill:60, col:'var(--sky)', mult:'+0.4x multiple', impact:'+R9.5M' },
+  { move:'Audit Track Record (3yr clean)', sub:'Three consecutive IFRS audited years', fill:50, col:'var(--warn)', mult:'+0.2x multiple', impact:'+R4.8M' },
+];
+
+const MAS_SIGNALS = [
+  { name:'Sector Consolidation Activity — Primary Space', note:'3 direct competitors acquired in past 12 months. Acquirers actively looking for next platform asset.', direction:'Positive signal for DLI process timing', status:'positive', date:'Q4 2024' },
+  { name:'PE Appetite — SA Mid-Market Buyout', note:'SAVCA data confirms 23% increase in PE deal activity in sector. Fund dry powder at 5-year high.', direction:'Medium-High → High expected by Q3 2025', status:'positive', date:'Q1 2025' },
+  { name:'Sector Multiple Movement', note:'Comparable transactions showing 0.3x expansion in EBITDA multiples. Driven by international buyer entry.', direction:'5.5x → 5.8x average. Benefits Tier 2 thesis.', status:'positive', date:'Q1 2025' },
+  { name:'International Strategic Activity', note:'Two listed international players have made non-binding indications of interest in SA sector assets. Monitor for acceleration.', direction:'Tier 3 buyer pool forming — watch closely', status:'neutral', date:'Q4 2024' },
+  { name:'LP Pressure on SA PE Funds', note:'Aging SA PE portfolios facing fundraising constraints. Some competitive sellers may accelerate exit timelines — creates market opportunity.', direction:'May increase buyer urgency from PE who want to deploy', status:'neutral', date:'Q1 2025' },
+  { name:'Macro: SA Interest Rate Environment', note:'Rate cut cycle underway. Cost of debt improving for LBO structures. Positive for PE buyer affordability and deal structures.', direction:'Improves PE deal economics — positive for MAS', status:'positive', date:'Q1 2025' },
+];
+
+const QR = [
+  { q:'Q1 2025', date:'March 2025', val:'R120M', mas:'61/100', msDue:4, msDone:2, finding:'SERA baseline confirmed. Key person risk rated critical. SPB decision register locked. MAS v1.0 issued.', status:'complete' },
+  { q:'Q2 2025', date:'June 2025', val:'—', mas:'—', msDue:3, msDone:null, finding:'Pending — CEO succession plan outcome and IFRS audit findings will be primary agenda items.', status:'upcoming' },
+  { q:'Q3 2025', date:'September 2025', val:'—', mas:'—', msDue:3, msDone:null, finding:'Pending — Recurring revenue milestone and MIS upgrade to be scored and bridged.', status:'upcoming' },
+  { q:'Q4 2025', date:'December 2025', val:'—', mas:'—', msDue:2, msDone:null, finding:'Pending — Exit readiness scorecard, adjacent market entry, and Tier 2 buyer pool validation.', status:'upcoming' },
+];
+
+const AGENDA = ['Progress review — decision register & milestone status','Valuation bridge update — impact of executed decisions','MAS review — buyer appetite and sector multiple movements','Market intelligence brief — active buyers in sector','KPI sensitivity review — which metrics moved this quarter','Risk register — new DD risks emerging or resolved','Decision escalation log — pending board-level decisions','Next quarter priorities and owner accountability'];
+
+const BRIDGE = [
+  { label:'SERA Baseline Valuation', pre:'R', val:120, suf:'M', type:'base', color:'#00329d' },
+  { label:'+ Recurring Revenue Model', pre:'+R', val:18, suf:'M', type:'add', color:'#0050ce' },
+  { label:'+ Key Person Risk Removed', pre:'+R', val:14, suf:'M', type:'add', color:'#0050ce' },
+  { label:'+ Geographic Expansion', pre:'+R', val:11, suf:'M', type:'add', color:'#0050ce' },
+  { label:'+ Clean IFRS Financials', pre:'+R', val:8, suf:'M', type:'add', color:'#0050ce' },
+  { label:'+ IP Documentation & Cap Table', pre:'+R', val:5, suf:'M', type:'add', color:'#0050ce' },
+  { label:'⭐ DLI Structured Buyer Process Premium', pre:'+R', val:16, suf:'M', type:'dli', color:'#ff560b' },
+  { label:'Target Exit Valuation', pre:'R', val:192, suf:'M', type:'target', color:'#16a34a' },
+];
+
+const IRR_SCENARIOS = [
+  { label:'Status Quo Exit (no SPB)', sub:'Current trajectory · Q4 2026 exit', irr:14.2, fill:60, color:'var(--danger)', val:'R120M' },
+  { label:'Optimised Exit (partial SPB)', sub:'Key levers executed · Q3 2026', irr:17.6, fill:74, color:'var(--warn)', val:'R164M' },
+  { label:'Premium Tier Exit (full SPB + DLI)', sub:'Full execution + DLI process · Q4 2026', irr:19.8, fill:84, color:'var(--green)', val:'R192M' },
+];
+
+const TIMING = [
+  { period:'Q4 2025 (Early Exit)', irr:'11.8%', val:'R108M', fill:50, color:'var(--danger)', note:'Insufficient readiness — forfeits R84M' },
+  { period:'Q1 2026', irr:'14.2%', val:'R130M', fill:60, color:'var(--warn)', note:'Tier 1 buyers only' },
+  { period:'Q2 2026', irr:'17.1%', val:'R158M', fill:74, color:'var(--royal)', note:'Tier 2 unlocked' },
+  { period:'Q3–Q4 2026 (Optimal)', irr:'19.8%', val:'R192M', fill:100, color:'var(--green)', note:'Full buyer pool + DLI premium' },
+  { period:'Q1–Q2 2027 (Late)', irr:'17.3%', val:'R185M', fill:78, color:'var(--warn)', note:'LP pressure increasing · holding cost drag' },
+];
+
+const ATTRIBUTION = [
+  { label:'Recurring Revenue Implementation', mgmt:'+R18M', dli:'—', total:'+R18M' },
+  { label:'Key Person Risk Resolved', mgmt:'+R14M', dli:'—', total:'+R14M' },
+  { label:'Geographic Expansion', mgmt:'+R11M', dli:'—', total:'+R11M' },
+  { label:'IFRS Clean Financials', mgmt:'+R8M', dli:'—', total:'+R8M' },
+  { label:'IP & Cap Table Cleanup', mgmt:'+R5M', dli:'—', total:'+R5M' },
+  { label:'DLI Structured Process Premium', mgmt:'—', dli:'+R16M', total:'+R16M' },
+];
+
+const READINESS = [
+  { dim:'Financial Quality & Reporting', score:68, status:'amber', signal:'amber', notes:'IFRS audit in progress. 2 more clean years required for Tier 2+ buyers.' },
+  { dim:'Revenue Quality & Concentration', score:52, status:'red', signal:'red', notes:'Top client = 41% of revenue. Target: <30%. Recurring revenue <25%. Critical gap.' },
+  { dim:'Management & Governance', score:71, status:'amber', signal:'amber', notes:'CEO succession plan underway. NEDs to be appointed. Improving trajectory.' },
+  { dim:'Legal & Compliance Readiness', score:74, status:'amber', signal:'green', notes:'Cap table resolution in progress. IP documentation pending. Low risk overall.' },
+  { dim:'Operational Scalability', score:58, status:'amber', signal:'amber', notes:'Single geography operation. No adjacent market proof point yet. Adjacent market entry critical.' },
+  { dim:'Buyer Alignment (MAS)', score:61, status:'amber', signal:'amber', notes:'MAS Category B+. Improving. On track for Category A by process launch if SPB executed.' },
+];
+
+/* ══════════════════════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════════════════════ */
+function pill(cls, txt) { return `<span class="pill ${cls}">${txt}</span>`; }
+function statusPill(s) {
+  const m = { 'complete':['p-green','Complete'], 'in-progress':['p-amber','In Progress'], 'not-started':['p-muted','Not Started'], 'In Progress':['p-amber','In Progress'], 'Not Started':['p-muted','Not Started'], 'Planned':['p-royal','Planned'], 'Complete':['p-green','Complete'], 'upcoming':['p-royal','Upcoming'] };
+  const [c,l] = m[s]||['p-muted',s]; return pill(c,l);
+}
+function masPill(l) {
+  const m = { high:['p-orange','High MAS Impact'], medium:['p-amber','Medium MAS Impact'], low:['p-muted','Low MAS Impact'] };
+  const [c,l2] = m[l]||['p-muted',l]; return pill(c,l2);
+}
+function scoreBar(val, max, col) {
+  return `<div class="score-bar-wrap"><div class="score-track"><div class="score-fill" style="width:${val/max*100}%;background:${col}"></div></div><span class="score-num" style="color:${col}">${val}</span></div>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER FUNCTIONS
+   ══════════════════════════════════════════════════════════ */
+function renderTiers() {
+  document.getElementById('tierList').innerHTML = TIERS.map(t => `
+    <div class="tier-card" id="tier-${t.id}" onclick="toggleTier('${t.id}')">
+      <div class="tier-header">
+        <div class="tier-badge ${t.badge}">${t.label}</div>
+        <div>
+          <div class="tier-name">${t.name}</div>
+          <div class="tier-desc">${t.desc}</div>
+          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+            ${t.buyers.map(b => pill('p-muted', b)).join('')}
+          </div>
+        </div>
+        <div class="tier-delta">
+          <div class="tier-delta-val" style="color:${t.deltaCol}">${t.delta}</div>
+          <div class="tier-delta-label">Valuation uplift</div>
+          <div style="margin-top:4px;font-size:10px;font-weight:600;color:var(--mid-grey)">${t.count}</div>
+        </div>
+        <div style="text-align:right">${pill('p-muted','▼ Gaps')}</div>
+      </div>
+      <div class="tier-gaps">
+        ${t.gaps.map(g => `
+          <div class="gap-row">
+            <div class="gap-dot" style="background:${g.col}"></div>
+            <div class="gap-text">${g.text}</div>
+            <div class="gap-effort">${g.effort}</div>
+            ${pill(g.gap ? 'p-red' : 'p-green', g.gap ? 'Gap' : 'Ready')}
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+let leverFilter = 'all';
+function filterLevers(f, btn) {
+  leverFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLevers();
+}
+function renderLevers() {
+  const list = leverFilter === 'all' ? LEVERS : LEVERS.filter(l => l.cat === leverFilter);
+  const riskCol = r => r==='Low' ? 'var(--green)' : r==='Medium' ? 'var(--warn)' : 'var(--danger)';
+  document.getElementById('leverList').innerHTML = list.map(l => `
+    <div class="lever-row ${l.cat === 'high' ? 'lhigh' : l.cat === 'medium' ? 'lmed' : 'llow'}">
+      <div>
+        <div class="lever-name">${l.name}</div>
+        <div class="lever-link">${l.link}</div>
+      </div>
+      <div>${scoreBar(l.impact, 10, 'var(--orange)')}</div>
+      <div>${scoreBar(l.mas, 10, 'var(--royal)')}</div>
+      <div><div class="col-label">Time</div><div class="col-val" style="font-size:11px">${l.time}</div></div>
+      <div><div class="col-label">Capital</div><div class="col-val" style="font-size:11px;color:${l.capital==='Low'?'var(--green)':l.capital==='High'?'var(--danger)':'var(--warn)'}">${l.capital}</div></div>
+      <div>${pill(l.risk==='Low'?'p-green':l.risk==='High'?'p-red':'p-amber', l.risk+' Risk')}</div>
+    </div>`).join('');
+}
+
+let decFilter = 'all';
+function filterDec(f, btn) {
+  decFilter = f;
+  document.querySelectorAll('#m4 .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDecisions();
+}
+function toggleDec(id) { document.getElementById('dec-'+id)?.classList.toggle('expanded'); }
+function renderDecisions() {
+  const list = decFilter === 'all' ? DECISIONS : DECISIONS.filter(d => d.mas === decFilter);
+  document.getElementById('decisionList').innerHTML = list.map(d => `
+    <div class="decision-card ${d.mas}" id="dec-${d.id}" onclick="toggleDec(${d.id})">
+      <div class="dec-grid">
+        <div>
+          <div class="dec-title">${d.text}</div>
+          <div class="dec-tags">${masPill(d.mas)} ${pill('p-muted','Complexity: '+d.complexity)}</div>
+        </div>
+        <div>
+          <div class="col-label">Exit Value Impact</div>
+          <div class="impact-bar-wrap">
+            <div class="impact-track"><div class="impact-fill" style="width:${d.impact*10}%"></div></div>
+            <span class="impact-score">${d.impact}</span>
+          </div>
+        </div>
+        <div><div class="col-label">Target Date</div><div class="col-val">${d.timeline}</div></div>
+        <div><div class="col-label">Owner</div><div class="col-sub">${d.owner}</div></div>
+        <div style="text-align:right">${statusPill(d.status)}</div>
+      </div>
+      <div class="dec-detail">
+        <div class="detail-head">DLI Strategic Rationale & Buyer Linkage</div>
+        <div class="detail-body">${d.rationale}</div>
+        <div class="sim-box" style="margin-top:10px">
+          <div class="sim-box-title">🔬 Exit Multiple Simulation — If this decision is executed:</div>
+          <div class="sim-row"><span class="sim-label">EBITDA Multiple</span><span class="sim-val-before">${d.multBefore}</span><span class="sim-arrow">→</span><span class="sim-val-after">${d.multAfter}</span></div>
+          <div class="sim-row"><span class="sim-label">Implied Valuation</span><span class="sim-val-before">${d.valBefore}</span><span class="sim-arrow">→</span><span class="sim-val-after">${d.valAfter}</span></div>
+          <div style="font-size:10px;color:var(--mid-grey);font-weight:500;margin-top:6px">Assumes current EBITDA maintained and DLI structured buyer process engaged at exit.</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderEROKPIs() {
+  const total = MILESTONES.length;
+  const done  = MILESTONES.filter(m => m.status==='complete').length;
+  const inP   = MILESTONES.filter(m => m.status==='in-progress').length;
+  const kpis = [
+    { l:'Exit Readiness Index',    v:'64/100', s:'↑ 13 pts this quarter',  c:'var(--green)' },
+    { l:'Milestones Complete',     v:`${done}/${total}`, s:'on critical path', c:'var(--royal)' },
+    { l:'In Active Execution',     v:inP,  s:'milestones in progress', c:'var(--warn)' },
+    { l:'Target Exit Window',      v:'Q3–Q4 2026', s:'18–24 months remaining', c:'var(--orange)' },
+  ];
+  document.getElementById('eroKPIs').innerHTML = kpis.map(k => `
+    <div class="kpi-card" style="border-top-color:${k.c}">
+      <div class="kpi-label">${k.l}</div>
+      <div class="kpi-value" style="color:${k.c};font-size:${k.v.length>5?'18px':'26px'}">${k.v}</div>
+      <div class="kpi-sub">${k.s}</div>
+    </div>`).join('');
+}
+
+function renderMilestones() {
+  const phases = [...new Set(MILESTONES.map(m => m.phase))];
+  document.getElementById('milestoneList').innerHTML = phases.map(ph => {
+    const items = MILESTONES.filter(m => m.phase===ph);
+    const done  = items.filter(m => m.status==='complete').length;
+    return `
+    <div style="margin-bottom:20px">
+      <div class="phase-group-hdr">
+        <span class="phase-chip">${ph}</span>
+        <div class="phase-line"></div>
+        <span class="phase-tally">${done}/${items.length} complete</span>
+      </div>
+      ${items.map(m => {
+        const dc = m.status==='complete'?'complete':m.status==='in-progress'?'in-progress':'not-started';
+        const ic = m.status==='complete'?'✓':m.status==='in-progress'?'→':'○';
+        return `<div class="milestone-row ${m.status}">
+          <div class="m-dot ${dc}">${ic}</div>
+          <div>
+            <div class="m-name">${m.name} ${m.critical?pill('p-red','Critical'):''}</div>
+            ${m.notes?`<div class="m-notes">${m.notes}</div>`:''}
+          </div>
+          <div class="m-owner">${m.owner}</div>
+          <div style="text-align:right">${statusPill(m.status==='not-started'?'Not Started':m.status==='in-progress'?'In Progress':'Complete')}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+function renderSensitivity() {
+  document.getElementById('sensitivityList').innerHTML = SENSITIVITY.map(s => `
+    <div class="kpi-sensitivity-row">
+      <div><div class="kpi-move-label">${s.move}</div><div class="kpi-move-sub">${s.sub}</div></div>
+      <div><div class="irr-bar-track"><div class="irr-bar-fill" style="width:${s.fill}%;background:${s.col}"></div></div></div>
+      <div class="kpi-impact-tag"><div class="kpi-impact-mult">${s.mult}</div><div class="kpi-impact-note">${s.impact} valuation impact</div></div>
+    </div>`).join('');
+}
+
+function renderMASSignals() {
+  document.getElementById('masSignalList').innerHTML = MAS_SIGNALS.map(s => `
+    <div class="mas-signal-row ${s.status}">
+      <div><div class="signal-name">${s.name}</div><div class="signal-note">${s.note}</div></div>
+      <div><div class="col-label">Implication</div><div style="font-size:10.5px;font-weight:600;color:var(--dark-grey)">${s.direction}</div></div>
+      <div style="text-align:center">${pill(s.status==='positive'?'p-green':s.status==='negative'?'p-red':'p-amber', s.status==='positive'?'↑ Positive':s.status==='negative'?'↓ Negative':'→ Watch')}</div>
+      <div><div class="col-label">Date</div><div class="col-val">${s.date}</div></div>
+    </div>`).join('');
+}
+
+function renderQR() {
+  document.getElementById('qrList').innerHTML = QR.map(q => `
+    <div class="qr-card ${q.status}">
+      <div class="qr-grid">
+        <div><div class="qr-title">${q.q} Review ${statusPill(q.status)}</div><div class="qr-finding">${q.finding}</div></div>
+        <div><div class="col-label">Valuation</div><div class="col-val">${q.val}</div></div>
+        <div><div class="col-label">MAS Score</div><div class="col-val">${q.mas}</div></div>
+        <div><div class="col-label">Milestones</div><div class="col-val">${q.msDone!==null?q.msDone+'/'+q.msDue+' done':q.msDue+' due'}</div></div>
+        <div><div class="col-label">Date</div><div class="col-val">${q.date}</div></div>
+      </div>
+      ${q.status==='complete'?`<div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-outline-navy">📄 Full Report</button><button class="btn btn-outline-muted">📊 MAS v1.0</button></div>`:''}
+    </div>`).join('');
+  document.getElementById('agendaGrid').innerHTML = AGENDA.map(a => `
+    <div class="agenda-item"><div class="agenda-dot"></div><div class="agenda-text">${a}</div></div>`).join('');
+}
+
+function renderBridge() {
+  document.getElementById('bridgeRows').innerHTML = BRIDGE.map(b => `
+    <div class="bridge-row ${b.type==='target'?'target-row':''}">
+      <div class="bridge-label ${b.type==='base'?'lbl-base':b.type==='target'?'lbl-target':b.type==='dli'?'lbl-dli':''}">${b.label}</div>
+      <div class="bridge-track"><div class="bridge-fill" style="width:${Math.min(100,b.val/192*100)}%;background:${b.color}"></div></div>
+      <div class="bridge-amt amt-${b.type}">${b.pre}${b.val}${b.suf}</div>
+    </div>`).join('');
+}
+
+function renderIRR() {
+  document.getElementById('irrList').innerHTML = IRR_SCENARIOS.map(s => `
+    <div class="irr-scenario">
+      <div style="min-width:200px"><div class="irr-sc-label">${s.label}</div><div class="irr-sc-sub">${s.sub}</div></div>
+      <div class="irr-bar-area"><div class="irr-bar-track"><div class="irr-bar-fill" style="width:${s.fill}%;background:${s.color}"></div></div></div>
+      <div class="irr-val" style="color:${s.color}">${s.irr}%</div>
+      <div style="min-width:80px;text-align:right"><div class="col-label">Exit Value</div><div class="col-val">${s.val}</div></div>
+    </div>`).join('');
+}
+
+function renderTiming() {
+  document.getElementById('timingRows').innerHTML = TIMING.map(t => `
+    <div class="timing-row">
+      <div class="timing-period">${t.period}</div>
+      <div class="timing-bar-track"><div class="timing-bar-fill" style="width:${t.fill}%;background:${t.color}"></div></div>
+      <div class="timing-vals">
+        <div class="timing-irr" style="color:${t.color}">${t.irr}</div>
+        <div class="timing-val">${t.val}</div>
+      </div>
+      <div style="font-size:10px;color:var(--mid-grey);font-weight:500;min-width:180px">${t.note}</div>
+    </div>`).join('');
+}
+
+function renderAttribution() {
+  document.getElementById('attributionList').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 100px 100px 100px;gap:10px;padding:0 0 8px;color:var(--light-grey);font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase">
+      <span>Driver</span><span>Mgmt Action</span><span>DLI Process</span><span>Total</span>
+    </div>
+    ${ATTRIBUTION.map(a => `
+    <div style="display:grid;grid-template-columns:1fr 100px 100px 100px;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);align-items:center">
+      <div style="font-size:11.5px;font-weight:600;color:var(--navy)">${a.label}</div>
+      <div style="font-size:12px;font-weight:700;color:${a.mgmt!=='—'?'var(--royal)':'var(--light-grey)'}">${a.mgmt}</div>
+      <div style="font-size:12px;font-weight:700;color:${a.dli!=='—'?'var(--orange)':'var(--light-grey)'}">${a.dli}</div>
+      <div style="font-size:12px;font-weight:800;color:var(--green)">${a.total}</div>
+    </div>`).join('')}
+    <div style="display:grid;grid-template-columns:1fr 100px 100px 100px;gap:10px;padding:10px 0 0;font-size:13px;font-weight:800">
+      <div style="color:var(--navy)">Total Uplift</div>
+      <div style="color:var(--royal)">R56M</div>
+      <div style="color:var(--orange)">R16M</div>
+      <div style="color:var(--green)">R72M</div>
+    </div>`;
+}
+
+function renderReadiness() {
+  const tlStatus = s => {
+    const active = s==='green'?2:s==='amber'?1:0;
+    return `<div class="traffic-light">
+      <div class="tl-dot tl-red ${active===0?'active':''}"></div>
+      <div class="tl-dot tl-amber ${active===1?'active':''}"></div>
+      <div class="tl-dot tl-green ${active===2?'active':''}"></div>
+      <div class="tl-label">${s==='green'?'Ready':s==='amber'?'Improving':'Attention'}</div>
+    </div>`;
+  };
+  document.getElementById('readinessList').innerHTML = READINESS.map(r => `
+    <div class="card mb-8">
+      <div style="display:grid;grid-template-columns:1fr 140px 120px 120px;align-items:start;gap:14px">
+        <div><div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:4px">${r.dim}</div><div style="font-size:11px;color:var(--mid-grey);font-weight:500">${r.notes}</div></div>
+        <div>${scoreBar(r.score, 100, r.score>=70?'var(--green)':r.score>=50?'var(--warn)':'var(--danger)')}</div>
+        <div>${tlStatus(r.signal)}</div>
+        <div>${pill(r.score>=70?'p-green':r.score>=50?'p-amber':'p-red', r.score+'/ 100')}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAV / VIEW SWITCHING
+   ══════════════════════════════════════════════════════════ */
+function switchPhase(ph) {
+  document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.nav-item:not(.sub)').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-'+ph).classList.remove('hidden');
+  document.getElementById('panel-'+ph).classList.add('anim');
+  if (document.getElementById('nav-'+ph)) document.getElementById('nav-'+ph).classList.add('active');
+  const titles = { spb:'Strategic Positioning Blueprint — SPB', ero:'Execution Roadmap & Oversight — ERO', ic:'Investment Committee Dashboard' };
+  document.getElementById('topbarTitle').textContent = titles[ph]||'';
+}
+
+function switchView(view, btn) {
+  document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
+  if (btn) { document.querySelectorAll('#eroToggle .view-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  document.getElementById('view-'+view).classList.remove('hidden');
+  document.getElementById('view-'+view).classList.add('anim');
+}
+
+function switchICView(view, btn) {
+  document.querySelectorAll('[id^="ic-"]').forEach(v => v.classList.add('hidden'));
+  if (btn) { document.querySelectorAll('#panel-ic .view-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  document.getElementById('ic-'+view).classList.remove('hidden');
+  document.getElementById('ic-'+view).classList.add('anim');
+}
+
+function toggleTier(id) { document.getElementById('tier-'+id)?.classList.toggle('open'); }
+
+function goModule(id) { setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' }), 50); }
+
+/* ══════════════════════════════════════════════════════════
+   INTERACTIVE CONTROLS
+   ══════════════════════════════════════════════════════════ */
+const HORIZONS = { '1':'0–2 Years (Near-Term)', '2':'2–4 Years (Medium-Term)', '3':'5+ Years (Long-Term)' };
+function updateHorizon(v) { document.getElementById('horizonVal').textContent = HORIZONS[v]||''; }
+
+const CAPITAL_NOTES = {
+  full:'Maximises buyer pool and competitive tension. Recommended for current risk profile.',
+  partial:'Allows founders to retain upside. Can suppress buyer valuation — manage carefully.',
+  minority:'Liquidity event only. Limited buyer universe. Best combined with PE co-investment.',
+  rollover:'Management continuity signal. Can increase PE appetite. Reduces founder exit proceeds.',
+};
+function updateCapital(v) { document.getElementById('capitalNote').textContent = CAPITAL_NOTES[v]||''; }
+
+const BIAS_NOTES = {
+  strategic:'Strategic bias limits process to trade acquirers. May exclude PE premium buyers.',
+  pe:'PE bias optimises for LBO structure. Requires strong recurring revenue and governance.',
+  agnostic:'Agnostic approach maximises DLI\'s ability to engineer competitive tension across all buyer tiers.',
+  mbo:'MBO limits exit value. Only viable with vendor finance. Should not be primary strategy.',
+};
+function updateBias(v) { document.getElementById('biasNote').textContent = BIAS_NOTES[v]||''; }
+
+function selectScenario(sc) {
+  ['sq','opt','prm'].forEach(s => document.getElementById('sc-'+s)?.classList.remove('active'));
+  document.getElementById('sc-'+sc)?.classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════ */
+const dateStr = new Date().toLocaleDateString('en-ZA', { month:'long', year:'numeric' });
+['SPB','ERO','IC'].forEach(s => { const el = document.getElementById('footer'+s); if (el) el.textContent = 'Last updated: '+dateStr; });
+
+renderTiers();
+renderLevers();
+renderDecisions();
+renderEROKPIs();
+renderMilestones();
+renderSensitivity();
+renderMASSignals();
+renderQR();
+renderBridge();
+renderIRR();
+renderTiming();
+renderAttribution();
+renderReadiness();
+
+// Animate bars
+requestAnimationFrame(() => {
+  document.querySelectorAll('.impact-fill,.bridge-fill,.irr-bar-fill,.timing-bar-fill,.score-fill,.exit-prob-fill,.prog-fill-dark,.prog-bar-inner,.irr-bar-fill').forEach(el => {
+    const w = el.style.width; el.style.width='0';
+    requestAnimationFrame(() => setTimeout(() => { el.style.width = w; }, 60));
+  });
+});
+</script>
+</body>
+</html>
