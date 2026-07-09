@@ -2,6 +2,46 @@
 
 Static site for **dliadvisory.com**. Single-file HTML pages (self-contained, images embedded), ready to deploy on any static host (GitHub Pages, Netlify, Cloudflare Pages).
 
+## How this site is run (read this first)
+
+The site is hosted on **GitHub Pages** and deploys itself automatically. Here is the whole picture in plain terms.
+
+**Where the files live.** The working copy lives in the Second Brain vault at
+`projects/internal/dliadvisory-website-repo/`. That same folder is a Git repository
+connected to GitHub at `https://github.com/Bahlmannator/dliadvisory-website`. Editing
+the files in the vault and pushing is the way changes are made. (If the repo is later
+moved into a DLI GitHub organisation, update the remote URL in `push-to-github.sh`.)
+
+**How a change goes live (three commands).** After editing any page, open Terminal in
+this folder and run:
+
+```
+git add -A
+git commit -m "Describe the change"
+git push origin main
+```
+
+The GitHub login is saved in the Mac keychain, so the push will not ask for a password.
+Pushing to `main` automatically triggers the deploy (see next point). The live site
+updates roughly one to two minutes later.
+
+**How the deploy works.** `.github/workflows/deploy-pages.yml` is a GitHub Actions
+workflow that runs on every push to `main`. It publishes the repo to GitHub Pages with
+no build step. Progress and the live URL are visible in the repo's **Actions** tab. It
+can also be run manually from there ("Run workflow").
+
+**The live address.** `dliadvisory.com` (and `www.dliadvisory.com`) point at GitHub
+Pages via DNS. The `CNAME` file in this repo holds the domain; do not delete it. HTTPS
+is provided automatically by GitHub.
+
+**Working with Claude (Cowork).** In a Cowork session, Claude can edit these files
+directly in the vault and prepare the commit. The one manual step is running the three
+commands above to push (Claude cannot push on your behalf from Cowork). Everything after
+the push is automatic.
+
+**That is the entire operating model.** No servers to manage, no Netlify, no build
+tooling. Edit in the vault, push, done.
+
 ## Pages
 
 | File | Title | Source (vault) |
